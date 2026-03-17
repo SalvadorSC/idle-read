@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useCallback, useEffect, useMemo, useReducer } from "react";
 import { useOfflineProduction } from "../hooks/useOfflineProduction";
 import { decode } from "base-64";
 let encodedSave = localStorage.getItem("encodedSave");
@@ -106,7 +106,41 @@ export const CounterProvider = ({ children }) => {
   }, [calculateOfflineProduction]);
   ///
 
-  const value = {
+  const setKnCount = useCallback((value) => {
+    dispatch({ type: actions.SET_KNCOUNT, value });
+  }, []);
+  const setStop = useCallback((value) => {
+    dispatch({ type: actions.SET_STOP, value });
+  }, []);
+  const setChosenBook = useCallback((value) => {
+    dispatch({ type: actions.SET_CHOSENBOOK, value });
+  }, []);
+  const setAutomatron1 = useCallback((value) => {
+    dispatch({ type: actions.SET_AUTOMATRON1, value });
+  }, []);
+  const setMultiplicador = useCallback((value) => {
+    dispatch({ type: actions.SET_MULTIPLICADOR, value });
+  }, []);
+  const setVolume = useCallback((value) => {
+    dispatch({ type: actions.SET_VOLUME, value });
+  }, []);
+  const setSquirrels = useCallback((value) => {
+    dispatch({ type: actions.SET_SQUIRRELS, value });
+  }, []);
+  const setPageTrees = useCallback((value) => {
+    dispatch({ type: actions.SET_PAGETREES, value });
+  }, []);
+  const setUpgrades = useCallback((value) => {
+    dispatch({ type: actions.SET_UPGRADES, value });
+  }, []);
+  const setLastLogin = useCallback((value) => {
+    dispatch({ type: actions.SET_LASTLOGIN, value });
+  }, []);
+  const setBookEnchantments = useCallback((value) => {
+    dispatch({ type: actions.SET_BOOKENCHANTMENTS, value });
+  }, []);
+
+  const value = useMemo(() => ({
     knCount: state.knCount,
     stop: state.stop,
     chosenBook: state.chosenBook,
@@ -118,39 +152,17 @@ export const CounterProvider = ({ children }) => {
     squirrels: state.squirrels,
     lastLogin: state.lastLogin,
     bookEnchantments: state.bookEnchantments,
-    setKnCount: (value) => {
-      dispatch({ type: actions.SET_KNCOUNT, value });
-    },
-    setStop: (value) => {
-      dispatch({ type: actions.SET_STOP, value });
-    },
-    setChosenBook: (value) => {
-      dispatch({ type: actions.SET_CHOSENBOOK, value });
-    },
-    setAutomatron1: (value) => {
-      dispatch({ type: actions.SET_AUTOMATRON1, value });
-    },
-    setMultiplicador: (value) => {
-      dispatch({ type: actions.SET_MULTIPLICADOR, value });
-    },
-    setVolume: (value) => {
-      dispatch({ type: actions.SET_VOLUME, value });
-    },
-    setSquirrels: (value) => {
-      dispatch({ type: actions.SET_SQUIRRELS, value });
-    },
-    setPageTrees: (value) => {
-      dispatch({ type: actions.SET_PAGETREES, value });
-    },
-    setUpgrades: (value) => {
-      dispatch({ type: actions.SET_UPGRADES, value });
-    },
-    setLastLogin: (value) => {
-      dispatch({ type: actions.SET_LASTLOGIN, value });
-    },
-    setBookEnchantments: (value) => {
-      dispatch({ type: actions.SET_BOOKENCHANTMENTS, value });
-    },
+    setKnCount,
+    setStop,
+    setChosenBook,
+    setAutomatron1,
+    setMultiplicador,
+    setVolume,
+    setSquirrels,
+    setPageTrees,
+    setUpgrades,
+    setLastLogin,
+    setBookEnchantments,
     generatedKn,
     setGeneratedKn,
     showBuffer,
@@ -159,7 +171,13 @@ export const CounterProvider = ({ children }) => {
     showGeneratedKnAlert,
     setRewardsTaken,
     baseUpgrades,
-  };
+  }), [
+    state, generatedKn, setGeneratedKn, showBuffer, setShowBuffer,
+    setShowGeneratedKnAlert, showGeneratedKnAlert, setRewardsTaken,
+    setKnCount, setStop, setChosenBook, setAutomatron1, setMultiplicador,
+    setVolume, setSquirrels, setPageTrees, setUpgrades, setLastLogin,
+    setBookEnchantments,
+  ]);
 
   return (
     <CounterContext.Provider value={value}>{children}</CounterContext.Provider>

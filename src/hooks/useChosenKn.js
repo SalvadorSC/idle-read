@@ -6,22 +6,17 @@ import { getCurrentTier } from "../utils/prestigeUtils";
 
 function getPrestigeMultipliers(prestigeUpgrades, totalWisdomEarned) {
   const multipliers = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
-  if (!prestigeUpgrades || !prestigeUpgrades.length) {
-    const tierMult = getCurrentTier(totalWisdomEarned).passiveMultiplier;
-    multipliers.generalKn *= tierMult;
-    multipliers.bioKn *= tierMult;
-    multipliers.technoKn *= tierMult;
-    multipliers.cultureKn *= tierMult;
-    return multipliers;
+  if (prestigeUpgrades && prestigeUpgrades.length) {
+    const upgradeSet = new Set(prestigeUpgrades);
+    prestigeData.prestigeUpgrades.forEach((upgrade) => {
+      if (upgradeSet.has(upgrade.id)) {
+        multipliers.generalKn *= upgrade.multipliers.generalKn;
+        multipliers.bioKn *= upgrade.multipliers.bioKn;
+        multipliers.technoKn *= upgrade.multipliers.technoKn;
+        multipliers.cultureKn *= upgrade.multipliers.cultureKn;
+      }
+    });
   }
-  prestigeData.prestigeUpgrades.forEach((upgrade) => {
-    if (prestigeUpgrades.includes(upgrade.id)) {
-      multipliers.generalKn *= upgrade.multipliers.generalKn;
-      multipliers.bioKn *= upgrade.multipliers.bioKn;
-      multipliers.technoKn *= upgrade.multipliers.technoKn;
-      multipliers.cultureKn *= upgrade.multipliers.cultureKn;
-    }
-  });
   // Apply tier passive multiplier
   const tierMult = getCurrentTier(totalWisdomEarned).passiveMultiplier;
   multipliers.generalKn *= tierMult;

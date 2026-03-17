@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef, useCallback } from "react";
 import CounterContext from "../context/CounterContext";
 import { useContador } from "./useContador";
 import { useChosenKn } from "./useChosenKn";
@@ -125,11 +125,32 @@ export const useIncrementByClick = () => {
     return () => clearTimeout(timer);
   });
 
-  // save function
+  // Debounced save — write to localStorage at most every 5 seconds
+  const saveTimerRef = useRef(null);
+  const latestSaveRef = useRef(save);
+  latestSaveRef.current = save;
+
   useEffect(() => {
-    localStorage.setItem("save", JSON.stringify(save));
-    localStorage.setItem("encodedSave", encode(JSON.stringify(save)));
+    if (saveTimerRef.current) return; // already scheduled
+    saveTimerRef.current = setTimeout(() => {
+      const json = JSON.stringify(latestSaveRef.current);
+      localStorage.setItem("save", json);
+      localStorage.setItem("encodedSave", encode(json));
+      saveTimerRef.current = null;
+    }, 5000);
   }, [save]);
+
+  // Flush save on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimerRef.current) {
+        clearTimeout(saveTimerRef.current);
+        const json = JSON.stringify(latestSaveRef.current);
+        localStorage.setItem("save", json);
+        localStorage.setItem("encodedSave", encode(json));
+      }
+    };
+  }, []);
 
   const increment = () => {
     const {

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useCallback, useMemo, useReducer } from "react";
 import { decode } from "base-64";
 
 const PrestigeContext = createContext();
@@ -39,20 +39,24 @@ function reducer(state, action) {
 export const PrestigeProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const value = {
+  const setWisdomPoints = useCallback((value) => {
+    dispatch({ type: actions.SET_WISDOM_POINTS, value });
+  }, []);
+  const setTotalWisdomEarned = useCallback((value) => {
+    dispatch({ type: actions.SET_TOTAL_WISDOM_EARNED, value });
+  }, []);
+  const setPrestigeUpgrades = useCallback((value) => {
+    dispatch({ type: actions.SET_PRESTIGE_UPGRADES, value });
+  }, []);
+
+  const value = useMemo(() => ({
     wisdomPoints: state.wisdomPoints,
     totalWisdomEarned: state.totalWisdomEarned,
     prestigeUpgrades: state.prestigeUpgrades,
-    setWisdomPoints: (value) => {
-      dispatch({ type: actions.SET_WISDOM_POINTS, value });
-    },
-    setTotalWisdomEarned: (value) => {
-      dispatch({ type: actions.SET_TOTAL_WISDOM_EARNED, value });
-    },
-    setPrestigeUpgrades: (value) => {
-      dispatch({ type: actions.SET_PRESTIGE_UPGRADES, value });
-    },
-  };
+    setWisdomPoints,
+    setTotalWisdomEarned,
+    setPrestigeUpgrades,
+  }), [state, setWisdomPoints, setTotalWisdomEarned, setPrestigeUpgrades]);
 
   return (
     <PrestigeContext.Provider value={value}>{children}</PrestigeContext.Provider>

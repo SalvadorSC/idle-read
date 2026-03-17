@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useCallback, useMemo, useReducer } from "react";
 
 const MiscContext = createContext();
 const initialState = {
@@ -40,32 +40,39 @@ function reducer(state, action) {
 export const MiscProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const value = {
+  const setMute = useCallback((value) => {
+    dispatch({ type: actions.SET_MUTE, value });
+  }, []);
+  const setIsPlaying = useCallback((value) => {
+    dispatch({ type: actions.SET_ISPLAYING, value });
+  }, []);
+  const setVolume = useCallback((value) => {
+    dispatch({ type: actions.SET_VOLUME, value });
+  }, []);
+  const setBuffMessage = useCallback((value) => {
+    dispatch({ type: actions.SET_buffMessage, value });
+  }, []);
+  const setBuffClass = useCallback((value) => {
+    dispatch({ type: actions.SET_buffClass, value });
+  }, []);
+  const setDetailsInfo = useCallback((value) => {
+    dispatch({ type: actions.SET_DETAILSINFO, value });
+  }, []);
+
+  const value = useMemo(() => ({
     mute: state.mute,
     volume: state.volume,
     isPlaying: state.isPlaying,
     detailsInfo: state.detailsInfo,
     buffMessage: state.buffMessage,
     buffClass: state.buffClass,
-    setMute: (value) => {
-      dispatch({ type: actions.SET_MUTE, value });
-    },
-    setIsPlaying: (value) => {
-      dispatch({ type: actions.SET_ISPLAYING, value });
-    },
-    setVolume: (value) => {
-      dispatch({ type: actions.SET_VOLUME, value });
-    },
-    setBuffMessage: (value) => {
-      dispatch({ type: actions.SET_buffMessage, value });
-    },
-    setBuffClass: (value) => {
-      dispatch({ type: actions.SET_buffClass, value });
-    },
-    setDetailsInfo: (value) => {
-      dispatch({ type: actions.SET_DETAILSINFO, value });
-    },
-  };
+    setMute,
+    setIsPlaying,
+    setVolume,
+    setBuffMessage,
+    setBuffClass,
+    setDetailsInfo,
+  }), [state, setMute, setIsPlaying, setVolume, setBuffMessage, setBuffClass, setDetailsInfo]);
 
   return <MiscContext.Provider value={value}>{children}</MiscContext.Provider>;
 };

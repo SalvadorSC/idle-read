@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useCallback, useMemo, useReducer, useEffect } from "react";
 import { getWeekId } from "../utils/weekCycle";
 
 const BookSubmissionsContext = createContext();
@@ -108,18 +108,18 @@ export const BookSubmissionsProvider = ({ children }) => {
     }
   }, [state.currentWeek]);
 
-  const submitBook = (title, description, field, knMultipliers) => {
+  const submitBook = useCallback((title, description, field, knMultipliers) => {
     dispatch({
       type: actions.SUBMIT_BOOK,
       value: { title, description, field, knMultipliers },
     });
-  };
+  }, []);
 
-  const voteBook = (submissionId) => {
+  const voteBook = useCallback((submissionId) => {
     dispatch({ type: actions.VOTE_BOOK, value: submissionId });
-  };
+  }, []);
 
-  const getWinnerBooks = () => {
+  const getWinnerBooks = useCallback(() => {
     return state.winners.map((winner) => ({
       price: [0, 0, 0, 0],
       field: winner.field,
@@ -128,9 +128,9 @@ export const BookSubmissionsProvider = ({ children }) => {
       knMultipliers: winner.knMultipliers,
       isCommunityBook: true,
     }));
-  };
+  }, [state.winners]);
 
-  const value = {
+  const value = useMemo(() => ({
     submissions: state.submissions,
     hasSubmitted: state.hasSubmitted,
     hasVoted: state.hasVoted,
@@ -140,7 +140,7 @@ export const BookSubmissionsProvider = ({ children }) => {
     voteBook,
     getWinnerBooks,
     KN_FIELDS,
-  };
+  }), [state, submitBook, voteBook, getWinnerBooks]);
 
   return (
     <BookSubmissionsContext.Provider value={value}>

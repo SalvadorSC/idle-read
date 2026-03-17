@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useCallback, useMemo, useReducer } from "react";
 import { decode } from "base-64";
 
 const StatsContext = createContext();
@@ -87,7 +87,38 @@ function reducer(state, action) {
 export const StatsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const value = {
+  const setUnlockedAchievements = useCallback((value) => {
+    dispatch({ type: actions.SET_UNLOCKED_ACHIEVEMENTS, value });
+  }, []);
+  const setGoal = useCallback((value) => {
+    dispatch({ type: actions.SET_GOAL, value });
+  }, []);
+  const setClicks = useCallback((value) => {
+    dispatch({ type: actions.SET_CLICKS, value });
+  }, []);
+  const setTotalKnCountOfThisRun = useCallback((value) => {
+    dispatch({ type: actions.SET_TOTALKNCOUNTOFTHISRUN, value });
+  }, []);
+  const setTotalClicksOfAllTime = useCallback((value) => {
+    dispatch({ type: actions.SET_TOTALCLICKSOFALLTIME, value });
+  }, []);
+  const setTotalKnOfAllTime = useCallback((value) => {
+    dispatch({ type: actions.SET_TOTALKNOFALLTIME, value });
+  }, []);
+  const setKnForfeitedAtReset = useCallback((value) => {
+    dispatch({ type: actions.SET_KNFORFEITEDATRESET, value });
+  }, []);
+  const setPotenciaClick = useCallback((value) => {
+    dispatch({ type: actions.SET_POTENCIACLICK, value });
+  }, []);
+  const setResets = useCallback((value) => {
+    dispatch({ type: actions.SET_RESETS, value });
+  }, []);
+  const setMaxKn = useCallback((value) => {
+    dispatch({ type: actions.SET_MAXKN, value });
+  }, []);
+
+  const value = useMemo(() => ({
     goal: state.goal,
     clicks: state.clicks,
     totalKnCountOfThisRun: state.totalKnCountOfThisRun,
@@ -98,37 +129,21 @@ export const StatsProvider = ({ children }) => {
     resets: state.resets,
     maxKn: state.maxKn,
     unlockedAchievements: state.unlockedAchievements,
-    setUnlockedAchievements: (value) => {
-      dispatch({ type: actions.SET_UNLOCKED_ACHIEVEMENTS, value });
-    },
-    setGoal: (value) => {
-      dispatch({ type: actions.SET_GOAL, value });
-    },
-    setClicks: (value) => {
-      dispatch({ type: actions.SET_CLICKS, value });
-    },
-    setTotalKnCountOfThisRun: (value) => {
-      dispatch({ type: actions.SET_TOTALKNCOUNTOFTHISRUN, value });
-    },
-    setTotalClicksOfAllTime: (value) => {
-      dispatch({ type: actions.SET_TOTALCLICKSOFALLTIME, value });
-    },
-    setTotalKnOfAllTime: (value) => {
-      dispatch({ type: actions.SET_TOTALKNOFALLTIME, value });
-    },
-    setKnForfeitedAtReset: (value) => {
-      dispatch({ type: actions.SET_KNFORFEITEDATRESET, value });
-    },
-    setPotenciaClick: (value) => {
-      dispatch({ type: actions.SET_POTENCIACLICK, value });
-    },
-    setResets: (value) => {
-      dispatch({ type: actions.SET_RESETS, value });
-    },
-    setMaxKn: (value) => {
-      dispatch({ type: actions.SET_MAXKN, value });
-    },
-  };
+    setUnlockedAchievements,
+    setGoal,
+    setClicks,
+    setTotalKnCountOfThisRun,
+    setTotalClicksOfAllTime,
+    setTotalKnOfAllTime,
+    setKnForfeitedAtReset,
+    setPotenciaClick,
+    setResets,
+    setMaxKn,
+  }), [
+    state, setUnlockedAchievements, setGoal, setClicks,
+    setTotalKnCountOfThisRun, setTotalClicksOfAllTime, setTotalKnOfAllTime,
+    setKnForfeitedAtReset, setPotenciaClick, setResets, setMaxKn,
+  ]);
 
   return (
     <StatsContext.Provider value={value}>{children}</StatsContext.Provider>
