@@ -17,6 +17,7 @@ export const useContador = (
     chosenBook,
     pageTrees,
     upgrades,
+    bookEnchantments,
   },
   buffClass
 ) => {
@@ -32,7 +33,7 @@ export const useContador = (
   const { prestigeUpgrades } = useContext(PrestigeContext);
   const sounds = [soundUrl1, soundUrl2];
   const [play] = useSound(sounds[1], { volume: mute ? 0 : 0.05 });
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments);
   const incrementEverySecond = () => {
     const totalKnOfThisRun =
       totalKnCountOfThisRun.generalKn +

@@ -20,6 +20,7 @@ export const useIncrementByClick = () => {
     lastLogin,
     upgrades,
     stop,
+    bookEnchantments,
   } = useContext(CounterContext);
   const {
     goal,
@@ -65,9 +66,11 @@ export const useIncrementByClick = () => {
       totalWisdomEarned,
       prestigeUpgrades,
       unlockedAchievements,
+      bookEnchantments,
     };
   }, [
     automatron1,
+    bookEnchantments,
     chosenBook,
     clicks,
     goal,
@@ -100,10 +103,11 @@ export const useIncrementByClick = () => {
       chosenBook,
       pageTrees,
       upgrades,
+      bookEnchantments,
     },
     buffClass
   );
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments);
 
   useEffect(() => {
     const timer = setTimeout(() => {

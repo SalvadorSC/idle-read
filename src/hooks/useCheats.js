@@ -14,6 +14,7 @@ export const useCheats = () => {
     setPageTrees,
     setUpgrades,
     baseUpgrades,
+    setBookEnchantments,
   } = useContext(CounterContext);
   const {
     setGoal,
@@ -71,6 +72,7 @@ export const useCheats = () => {
       generalKn: knForfeitedAtReset.generalKn + knCount.generalKn,
     });
     setChosenBook("General Culture I");
+    setBookEnchantments({});
   };
   const resetAllGame = () => {
     setGoal(100);
@@ -118,6 +120,7 @@ export const useCheats = () => {
     setTotalWisdomEarned(0);
     setPrestigeUpgrades([]);
     setUnlockedAchievements([]);
+    setBookEnchantments({});
   };
   const cheat = () => {
     setKnCount({

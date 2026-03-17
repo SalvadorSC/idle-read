@@ -25,6 +25,7 @@ const initialState = {
   upgrades: savegame ? savegame.upgrades : baseUpgrades,
   chosenBook: savegame ? savegame.chosenBook : "General Culture I",
   lastLogin: savegame ? savegame.lastLogin : 0,
+  bookEnchantments: savegame ? savegame.bookEnchantments || {} : {},
 };
 
 const actions = {
@@ -38,6 +39,7 @@ const actions = {
   SET_CHOSENBOOK: "SET_CHOSENBOOK",
   SET_LASTLOGIN: "SET_LASTLOGIN",
   SET_VOLUME: "SET_VOLUME",
+  SET_BOOKENCHANTMENTS: "SET_BOOKENCHANTMENTS",
 };
 
 function reducer(state, action) {
@@ -62,6 +64,8 @@ function reducer(state, action) {
       return { ...state, lastLogin: action.value };
     case actions.SET_VOLUME:
       return { ...state, volume: action.value };
+    case actions.SET_BOOKENCHANTMENTS:
+      return { ...state, bookEnchantments: action.value };
     default:
       return state;
   }
@@ -83,6 +87,7 @@ export const CounterProvider = ({ children }) => {
     },
     upgrades: state.upgrades,
     prestigeUpgrades: savegame ? savegame.prestigeUpgrades || [] : [],
+    bookEnchantments: state.bookEnchantments,
   };
 
   const {
@@ -111,6 +116,7 @@ export const CounterProvider = ({ children }) => {
     upgrades: state.upgrades,
     squirrels: state.squirrels,
     lastLogin: state.lastLogin,
+    bookEnchantments: state.bookEnchantments,
     setKnCount: (value) => {
       dispatch({ type: actions.SET_KNCOUNT, value });
     },
@@ -140,6 +146,9 @@ export const CounterProvider = ({ children }) => {
     },
     setLastLogin: (value) => {
       dispatch({ type: actions.SET_LASTLOGIN, value });
+    },
+    setBookEnchantments: (value) => {
+      dispatch({ type: actions.SET_BOOKENCHANTMENTS, value });
     },
     generatedKn,
     setGeneratedKn,

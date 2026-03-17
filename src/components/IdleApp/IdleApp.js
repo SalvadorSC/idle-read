@@ -21,6 +21,7 @@ import { ReactFlowProvider } from "reactflow";
 import { BookSubmissions } from "../BookSubmissions/BookSubmissions";
 import { BookCombos } from "../BookCombos/BookCombos";
 import { Prestige } from "../Prestige/Prestige";
+import { BookEnchantments } from "../BookEnchantments/BookEnchantments";
 import { Tooltip } from "../Tooltip/Tooltip";
 import PrestigeContext from "../../context/PrestigeContext";
 const IdleApp = () => {
@@ -37,7 +38,8 @@ const IdleApp = () => {
     dependencies.chosenBook,
     dependencies.buffClass,
     dependencies.upgrades,
-    prestigeUpgrades
+    prestigeUpgrades,
+    dependencies.bookEnchantments
   );
   const is_mobile =
     !!navigator.userAgent.match(/iphone|android|blackberry/gi) || false;
@@ -230,6 +232,13 @@ const IdleApp = () => {
                   </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
+                  <Tooltip text="Enchant books for bonus effects" position="bottom">
+                    <Link className="second-half-nav-button" to="/enchant">
+                      Enchant
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
                   <Tooltip text="Reset for permanent bonuses" position="bottom">
                     <Link className="second-half-nav-button" to="/prestige">
                       Prestige
@@ -265,6 +274,9 @@ const IdleApp = () => {
             </Route>
             <Route path="/combos">
               <BookCombos />
+            </Route>
+            <Route path="/enchant">
+              <BookEnchantments />
             </Route>
             <Route path="/prestige">
               <Prestige />
@@ -434,6 +446,13 @@ const IdleApp = () => {
                   </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
+                  <Tooltip text="Enchant books for bonus effects" position="bottom">
+                    <Link className="second-half-nav-button" to="/enchant">
+                      Enchant
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
                   <Tooltip text="Reset for permanent bonuses" position="bottom">
                     <Link className="second-half-nav-button" to="/prestige">
                       Prestige
@@ -469,6 +488,9 @@ const IdleApp = () => {
             </Route>
             <Route path="/combos">
               <BookCombos />
+            </Route>
+            <Route path="/enchant">
+              <BookEnchantments />
             </Route>
             <Route path="/prestige">
               <Prestige />

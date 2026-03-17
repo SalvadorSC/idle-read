@@ -1,5 +1,6 @@
 import bookCombosData from "../data/bookCombos.json";
 import prestigeData from "../data/prestigeUpgrades.json";
+import enchantmentsData from "../data/enchantments.json";
 
 function getPrestigeMultipliers(prestigeUpgrades) {
   const multipliers = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
@@ -15,7 +16,7 @@ function getPrestigeMultipliers(prestigeUpgrades) {
   return multipliers;
 }
 
-function getComboMultipliers(upgrades) {
+function getComboMultipliers(upgrades, comboBoost) {
   if (!upgrades) return { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
   const ownedBooks = [
     ...(upgrades.multiplicador || []),
@@ -35,6 +36,13 @@ function getComboMultipliers(upgrades) {
       multipliers.cultureKn *= combo.bonusMultipliers.cultureKn;
     }
   });
+  // Apply combo boost enchantment if present
+  if (comboBoost > 1) {
+    multipliers.generalKn *= comboBoost;
+    multipliers.bioKn *= comboBoost;
+    multipliers.technoKn *= comboBoost;
+    multipliers.cultureKn *= comboBoost;
+  }
   return multipliers;
 }
 
@@ -57,7 +65,25 @@ function getCommunityBookMultipliers(bookTitle) {
   return null;
 }
 
-export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds) => {
+function getEnchantmentEffects(libro, bookEnchantments) {
+  const knMults = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
+  let comboBoost = 1;
+  if (!bookEnchantments || !bookEnchantments[libro]) return { knMults, comboBoost };
+  const enchantId = bookEnchantments[libro];
+  const enchant = enchantmentsData.enchantments.find((e) => e.id === enchantId);
+  if (!enchant) return { knMults, comboBoost };
+  if (enchant.effect.type === "knMultiplier") {
+    knMults.generalKn = enchant.effect.multipliers.generalKn;
+    knMults.bioKn = enchant.effect.multipliers.bioKn;
+    knMults.technoKn = enchant.effect.multipliers.technoKn;
+    knMults.cultureKn = enchant.effect.multipliers.cultureKn;
+  } else if (enchant.effect.type === "comboBoost") {
+    comboBoost = enchant.effect.value;
+  }
+  return { knMults, comboBoost };
+}
+
+export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds, bookEnchantments) => {
   const setChosenBookEffect = (item) => {
     let genrlKnCountWithEffects;
     let bioKnCountWithEffects;
@@ -70,17 +96,18 @@ export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds) => {
       item = item * 3;
     }
 
-    const comboMults = getComboMultipliers(upgrades);
+    const { knMults: enchantMults, comboBoost } = getEnchantmentEffects(libro, bookEnchantments);
+    const comboMults = getComboMultipliers(upgrades, comboBoost);
     const prestigeMults = getPrestigeMultipliers(prestigeUpgradeIds);
 
     // Check if this is a community book first
     const communityMultipliers = getCommunityBookMultipliers(libro);
     if (communityMultipliers) {
       return {
-        genrlKnCountWithEffects: item * communityMultipliers.generalKn * comboMults.generalKn * prestigeMults.generalKn,
-        bioKnCountWithEffects: item * communityMultipliers.bioKn * comboMults.bioKn * prestigeMults.bioKn,
-        technoKnCountWithEffects: item * communityMultipliers.technoKn * comboMults.technoKn * prestigeMults.technoKn,
-        cultureKnCountWithEffects: item * communityMultipliers.cultureKn * comboMults.cultureKn * prestigeMults.cultureKn,
+        genrlKnCountWithEffects: item * communityMultipliers.generalKn * enchantMults.generalKn * comboMults.generalKn * prestigeMults.generalKn,
+        bioKnCountWithEffects: item * communityMultipliers.bioKn * enchantMults.bioKn * comboMults.bioKn * prestigeMults.bioKn,
+        technoKnCountWithEffects: item * communityMultipliers.technoKn * enchantMults.technoKn * comboMults.technoKn * prestigeMults.technoKn,
+        cultureKnCountWithEffects: item * communityMultipliers.cultureKn * enchantMults.cultureKn * comboMults.cultureKn * prestigeMults.cultureKn,
       };
     }
 
@@ -182,10 +209,10 @@ export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds) => {
         cultureKnCountWithEffects = item * 0.25;
     }
     return {
-      genrlKnCountWithEffects: genrlKnCountWithEffects * comboMults.generalKn * prestigeMults.generalKn,
-      bioKnCountWithEffects: bioKnCountWithEffects * comboMults.bioKn * prestigeMults.bioKn,
-      technoKnCountWithEffects: technoKnCountWithEffects * comboMults.technoKn * prestigeMults.technoKn,
-      cultureKnCountWithEffects: cultureKnCountWithEffects * comboMults.cultureKn * prestigeMults.cultureKn,
+      genrlKnCountWithEffects: genrlKnCountWithEffects * enchantMults.generalKn * comboMults.generalKn * prestigeMults.generalKn,
+      bioKnCountWithEffects: bioKnCountWithEffects * enchantMults.bioKn * comboMults.bioKn * prestigeMults.bioKn,
+      technoKnCountWithEffects: technoKnCountWithEffects * enchantMults.technoKn * comboMults.technoKn * prestigeMults.technoKn,
+      cultureKnCountWithEffects: cultureKnCountWithEffects * enchantMults.cultureKn * comboMults.cultureKn * prestigeMults.cultureKn,
     };
   };
 
