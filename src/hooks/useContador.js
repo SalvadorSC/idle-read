@@ -5,6 +5,7 @@ import soundUrl2 from "../assets/page-flip-03.mp3";
 import { useContext } from "react";
 import StatsContext from "../context/StatsContext";
 import PrestigeContext from "../context/PrestigeContext";
+import { sumKn } from "../utils/knUtils";
 
 export const useContador = (
   {
@@ -36,11 +37,7 @@ export const useContador = (
   const [play] = useSound(sounds[1], { volume: mute ? 0 : 0.05 });
   const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments, totalWisdomEarned);
   const incrementEverySecond = () => {
-    const totalKnOfThisRun =
-      totalKnCountOfThisRun.generalKn +
-      totalKnCountOfThisRun.bioKn +
-      totalKnCountOfThisRun.technoKn +
-      totalKnCountOfThisRun.cultureKn;
+    const totalKnOfThisRun = sumKn(totalKnCountOfThisRun);
     setMaxKn({
       generalKn:
         maxKn.generalKn < knCount.generalKn

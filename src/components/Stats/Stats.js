@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useMemo } from "react";
 import CounterContext from "../../context/CounterContext";
 import StatsContext from "../../context/StatsContext";
 import { Tooltip } from "../Tooltip/Tooltip";
+import { formatKnReward, sumKn } from "../../utils/knUtils";
 import achievementsData from "../../data/achievements.json";
 import "./Stats.css";
 
@@ -29,27 +30,12 @@ function checkCondition(condition, state) {
     case "resets":
       return state.resets >= condition.value;
     case "totalKnAllTime":
-      return (
-        state.totalKnOfAllTime.generalKn +
-          state.totalKnOfAllTime.bioKn +
-          state.totalKnOfAllTime.technoKn +
-          state.totalKnOfAllTime.cultureKn >=
-        condition.value
-      );
+      return sumKn(state.totalKnOfAllTime) >= condition.value;
     case "totalClicksAllTime":
       return state.totalClicksAllTime >= condition.value;
     default:
       return false;
   }
-}
-
-function formatKnReward(reward) {
-  const parts = [];
-  if (reward.generalKn) parts.push(`+${reward.generalKn} kN`);
-  if (reward.bioKn) parts.push(`+${reward.bioKn} bioKn`);
-  if (reward.technoKn) parts.push(`+${reward.technoKn} technoKn`);
-  if (reward.cultureKn) parts.push(`+${reward.cultureKn} cultureKn`);
-  return parts.join(", ");
 }
 
 export const Stats = () => {
@@ -75,16 +61,8 @@ export const Stats = () => {
 
   const [notification, setNotification] = useState(null);
 
-  const totalKnOfThisRun =
-    totalKnCountOfThisRun.generalKn +
-    totalKnCountOfThisRun.bioKn +
-    totalKnCountOfThisRun.technoKn +
-    totalKnCountOfThisRun.cultureKn;
-  const totalKnOfAllRuns =
-    totalKnOfAllTime.generalKn +
-    totalKnOfAllTime.bioKn +
-    totalKnOfAllTime.technoKn +
-    totalKnOfAllTime.cultureKn;
+  const totalKnOfThisRun = sumKn(totalKnCountOfThisRun);
+  const totalKnOfAllRuns = sumKn(totalKnOfAllTime);
 
   const state = useMemo(
     () => ({

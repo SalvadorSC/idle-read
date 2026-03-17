@@ -1,9 +1,16 @@
-import React, { useContext, useState, useEffect, useRef, useCallback } from "react";
+import React, { useContext, useState, useEffect, useRef, useCallback, useMemo } from "react";
 import CounterContext from "../../context/CounterContext";
 import StatsContext from "../../context/StatsContext";
 import PrestigeContext from "../../context/PrestigeContext";
+import { formatKnReward, sumKn } from "../../utils/knUtils";
 import challengesData from "../../data/timedChallenges.json";
 import "./TimedChallenges.css";
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
 
 export const TimedChallenges = () => {
   const { knCount, setKnCount } = useContext(CounterContext);
@@ -11,20 +18,27 @@ export const TimedChallenges = () => {
   const { wisdomPoints, setWisdomPoints, totalWisdomEarned, setTotalWisdomEarned } =
     useContext(PrestigeContext);
 
-  // { challengeId: { active, startKn, startClicks, timeLeft, completed, cooldownEnd } }
   const [challengeStates, setChallengeStates] = useState({});
   const intervalRef = useRef(null);
 
-  const getActiveChallenge = () => {
-    return Object.entries(challengeStates).find(
-      ([, state]) => state.active && !state.completed
+  const hasActive = useMemo(
+    () =>
+      Object.values(challengeStates).some(
+        (s) => s.active && !s.completed && !s.failed
+      ),
+    [challengeStates]
+  );
+
+  const activeEntry = useMemo(() => {
+    const entry = Object.entries(challengeStates).find(
+      ([, s]) => s.active && !s.completed
     );
-  };
+    return entry || null;
+  }, [challengeStates]);
 
   const getCurrentValue = useCallback(
     (challenge, startState) => {
-      const goalType = challenge.goal.type;
-      switch (goalType) {
+      switch (challenge.goal.type) {
         case "generalKn":
           return Math.max(0, knCount.generalKn - startState.startKn.generalKn);
         case "bioKn":
@@ -35,16 +49,8 @@ export const TimedChallenges = () => {
           return Math.max(0, knCount.cultureKn - startState.startKn.cultureKn);
         case "clicks":
           return Math.max(0, clicks - startState.startClicks);
-        case "totalKn": {
-          const startTotal =
-            startState.startKn.generalKn +
-            startState.startKn.bioKn +
-            startState.startKn.technoKn +
-            startState.startKn.cultureKn;
-          const currentTotal =
-            knCount.generalKn + knCount.bioKn + knCount.technoKn + knCount.cultureKn;
-          return Math.max(0, currentTotal - startTotal);
-        }
+        case "totalKn":
+          return Math.max(0, sumKn(knCount) - sumKn(startState.startKn));
         default:
           return 0;
       }
@@ -53,7 +59,7 @@ export const TimedChallenges = () => {
   );
 
   const startChallenge = (challenge) => {
-    if (getActiveChallenge()) return;
+    if (activeEntry) return;
     const state = challengeStates[challenge.id];
     if (state && state.cooldownEnd && Date.now() < state.cooldownEnd) return;
 
@@ -71,10 +77,9 @@ export const TimedChallenges = () => {
     }));
   };
 
-  // Timer tick
+  // Timer tick — only depends on hasActive boolean, not the full state object
   useEffect(() => {
-    const active = getActiveChallenge();
-    if (!active) {
+    if (!hasActive) {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
@@ -82,13 +87,16 @@ export const TimedChallenges = () => {
       return;
     }
 
+    // Don't create a new interval if one already exists
     if (intervalRef.current) return;
 
     intervalRef.current = setInterval(() => {
       setChallengeStates((prev) => {
+        let changed = false;
         const updated = { ...prev };
         for (const [id, state] of Object.entries(updated)) {
           if (state.active && !state.completed && !state.failed) {
+            changed = true;
             const newTimeLeft = state.timeLeft - 1;
             if (newTimeLeft <= 0) {
               const challenge = challengesData.challenges.find((c) => c.id === id);
@@ -104,24 +112,20 @@ export const TimedChallenges = () => {
             }
           }
         }
-        return updated;
+        return changed ? updated : prev;
       });
     }, 1000);
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [challengeStates]);
+  }, [hasActive]);
 
   // Check completion
   useEffect(() => {
-    const active = getActiveChallenge();
-    if (!active) return;
-    const [id, state] = active;
+    if (!activeEntry) return;
+    const [id, state] = activeEntry;
     const challenge = challengesData.challenges.find((c) => c.id === id);
     if (!challenge) return;
 
@@ -132,8 +136,7 @@ export const TimedChallenges = () => {
         [id]: { ...prev[id], active: false, completed: true },
       }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [knCount, clicks]);
+  }, [activeEntry, getCurrentValue]);
 
   const claimReward = (challenge) => {
     const state = challengeStates[challenge.id];
@@ -164,29 +167,11 @@ export const TimedChallenges = () => {
     }));
   };
 
-  const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, "0")}`;
-  };
-
-  const formatReward = (reward) => {
-    if (reward.type === "wp") return `+${reward.amount} WP`;
-    const parts = [];
-    if (reward.generalKn) parts.push(`+${reward.generalKn} kN`);
-    if (reward.bioKn) parts.push(`+${reward.bioKn} bioKn`);
-    if (reward.technoKn) parts.push(`+${reward.technoKn} technoKn`);
-    if (reward.cultureKn) parts.push(`+${reward.cultureKn} cultureKn`);
-    return parts.join(", ");
-  };
-
   const getCooldownRemaining = (challengeId) => {
     const state = challengeStates[challengeId];
     if (!state || !state.cooldownEnd) return 0;
     return Math.max(0, Math.ceil((state.cooldownEnd - Date.now()) / 1000));
   };
-
-  const activeEntry = getActiveChallenge();
 
   return (
     <div className="timed-challenges-panel">
@@ -224,7 +209,7 @@ export const TimedChallenges = () => {
                 <span className="challenge-duration">{formatTime(challenge.duration)}</span>
               </div>
               <p className="challenge-description">{challenge.description}</p>
-              <p className="challenge-reward">Reward: {formatReward(challenge.reward)}</p>
+              <p className="challenge-reward">Reward: {formatKnReward(challenge.reward)}</p>
 
               {isActive && state && (
                 <div className="challenge-progress-section">

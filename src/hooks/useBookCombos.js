@@ -1,17 +1,9 @@
 import { useMemo } from "react";
 import bookCombosData from "../data/bookCombos.json";
+import { getOwnedBooks } from "../utils/knUtils";
 
 export const useBookCombos = (upgrades) => {
-  const ownedBooks = useMemo(() => {
-    if (!upgrades) return [];
-    const allBooks = [
-      ...(upgrades.multiplicador || []),
-      ...(upgrades.technology || []),
-      ...(upgrades.nature || []),
-      ...(upgrades.culture || []),
-    ];
-    return allBooks;
-  }, [upgrades]);
+  const ownedBooks = useMemo(() => getOwnedBooks(upgrades), [upgrades]);
 
   const activeCombos = useMemo(() => {
     return bookCombosData.bookCombos.filter((combo) => {

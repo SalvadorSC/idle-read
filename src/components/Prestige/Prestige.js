@@ -2,28 +2,11 @@ import React, { useContext } from "react";
 import StatsContext from "../../context/StatsContext";
 import PrestigeContext from "../../context/PrestigeContext";
 import { useCheats } from "../../hooks/useCheats";
+import { sumKn } from "../../utils/knUtils";
+import { getCurrentTier, getNextTier, getTierIndex } from "../../utils/prestigeUtils";
 import prestigeData from "../../data/prestigeUpgrades.json";
 import { Tooltip } from "../Tooltip/Tooltip";
 import "./Prestige.css";
-
-function getCurrentTier(totalWisdomEarned) {
-  let tier = prestigeData.prestigeTiers[0];
-  for (const t of prestigeData.prestigeTiers) {
-    if (totalWisdomEarned >= t.wpRequired) tier = t;
-  }
-  return tier;
-}
-
-function getNextTier(totalWisdomEarned) {
-  for (const t of prestigeData.prestigeTiers) {
-    if (totalWisdomEarned < t.wpRequired) return t;
-  }
-  return null;
-}
-
-function getTierIndex(tierId) {
-  return prestigeData.prestigeTiers.findIndex((t) => t.id === tierId);
-}
 
 export const Prestige = () => {
   const { totalKnCountOfThisRun, resets } = useContext(StatsContext);
@@ -37,11 +20,7 @@ export const Prestige = () => {
   } = useContext(PrestigeContext);
   const { resetGame } = useCheats();
 
-  const totalKnThisRun =
-    totalKnCountOfThisRun.generalKn +
-    totalKnCountOfThisRun.bioKn +
-    totalKnCountOfThisRun.technoKn +
-    totalKnCountOfThisRun.cultureKn;
+  const totalKnThisRun = sumKn(totalKnCountOfThisRun);
 
   const currentTier = getCurrentTier(totalWisdomEarned);
   const nextTier = getNextTier(totalWisdomEarned);

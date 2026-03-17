@@ -1,20 +1,13 @@
 import bookCombosData from "../data/bookCombos.json";
 import prestigeData from "../data/prestigeUpgrades.json";
 import enchantmentsData from "../data/enchantments.json";
-
-function getTierMultiplier(totalWisdomEarned) {
-  if (!prestigeData.prestigeTiers) return 1;
-  let tier = prestigeData.prestigeTiers[0];
-  for (const t of prestigeData.prestigeTiers) {
-    if ((totalWisdomEarned || 0) >= t.wpRequired) tier = t;
-  }
-  return tier.passiveMultiplier;
-}
+import { getOwnedBooks } from "../utils/knUtils";
+import { getCurrentTier } from "../utils/prestigeUtils";
 
 function getPrestigeMultipliers(prestigeUpgrades, totalWisdomEarned) {
   const multipliers = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
   if (!prestigeUpgrades || !prestigeUpgrades.length) {
-    const tierMult = getTierMultiplier(totalWisdomEarned);
+    const tierMult = getCurrentTier(totalWisdomEarned).passiveMultiplier;
     multipliers.generalKn *= tierMult;
     multipliers.bioKn *= tierMult;
     multipliers.technoKn *= tierMult;
@@ -30,7 +23,7 @@ function getPrestigeMultipliers(prestigeUpgrades, totalWisdomEarned) {
     }
   });
   // Apply tier passive multiplier
-  const tierMult = getTierMultiplier(totalWisdomEarned);
+  const tierMult = getCurrentTier(totalWisdomEarned).passiveMultiplier;
   multipliers.generalKn *= tierMult;
   multipliers.bioKn *= tierMult;
   multipliers.technoKn *= tierMult;
@@ -40,12 +33,7 @@ function getPrestigeMultipliers(prestigeUpgrades, totalWisdomEarned) {
 
 function getComboMultipliers(upgrades, comboBoost) {
   if (!upgrades) return { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
-  const ownedBooks = [
-    ...(upgrades.multiplicador || []),
-    ...(upgrades.technology || []),
-    ...(upgrades.nature || []),
-    ...(upgrades.culture || []),
-  ];
+  const ownedBooks = getOwnedBooks(upgrades);
   const multipliers = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
   bookCombosData.bookCombos.forEach((combo) => {
     const isActive = combo.requiredBookCount
@@ -68,17 +56,21 @@ function getComboMultipliers(upgrades, comboBoost) {
   return multipliers;
 }
 
-// Look up community book multipliers from localStorage
+// Cache community book multipliers — parsed once, refreshed only when localStorage changes
+let _communityCache = null;
+let _communityCacheRaw = null;
+
 function getCommunityBookMultipliers(bookTitle) {
   try {
-    const saved = localStorage.getItem("bookSubmissions");
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (data.winners) {
-        const winner = data.winners.find((w) => w.title === bookTitle);
-        if (winner && winner.knMultipliers) {
-          return winner.knMultipliers;
-        }
+    const raw = localStorage.getItem("bookSubmissions");
+    if (raw !== _communityCacheRaw) {
+      _communityCacheRaw = raw;
+      _communityCache = raw ? JSON.parse(raw) : null;
+    }
+    if (_communityCache && _communityCache.winners) {
+      const winner = _communityCache.winners.find((w) => w.title === bookTitle);
+      if (winner && winner.knMultipliers) {
+        return winner.knMultipliers;
       }
     }
   } catch (e) {
@@ -87,12 +79,16 @@ function getCommunityBookMultipliers(bookTitle) {
   return null;
 }
 
+// Pre-build enchantment lookup map for O(1) access
+const enchantmentMap = {};
+enchantmentsData.enchantments.forEach((e) => { enchantmentMap[e.id] = e; });
+
 function getEnchantmentEffects(libro, bookEnchantments) {
   const knMults = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
   let comboBoost = 1;
   if (!bookEnchantments || !bookEnchantments[libro]) return { knMults, comboBoost };
   const enchantId = bookEnchantments[libro];
-  const enchant = enchantmentsData.enchantments.find((e) => e.id === enchantId);
+  const enchant = enchantmentMap[enchantId];
   if (!enchant) return { knMults, comboBoost };
   if (enchant.effect.type === "knMultiplier") {
     knMults.generalKn = enchant.effect.multipliers.generalKn;

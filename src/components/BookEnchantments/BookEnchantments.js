@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import CounterContext from "../../context/CounterContext";
 import enchantmentsData from "../../data/enchantments.json";
 import { Tooltip } from "../Tooltip/Tooltip";
+import { getOwnedBooks, formatKnReward } from "../../utils/knUtils";
 import "./BookEnchantments.css";
 
 export const BookEnchantments = () => {
@@ -10,12 +11,7 @@ export const BookEnchantments = () => {
 
   const [selectedBook, setSelectedBook] = useState(null);
 
-  const ownedBooks = [
-    ...(upgrades.multiplicador || []),
-    ...(upgrades.technology || []),
-    ...(upgrades.nature || []),
-    ...(upgrades.culture || []),
-  ];
+  const ownedBooks = useMemo(() => getOwnedBooks(upgrades), [upgrades]);
 
   const canAfford = (cost) => {
     return (
