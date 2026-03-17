@@ -31,6 +31,68 @@
   color: #999;
 }
 
+.prestige-tier-section {
+  background-color: #2a2a2a;
+  border: 1px solid #e8c547;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.prestige-tier-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.prestige-tier-label {
+  font-size: 13px;
+  color: #999;
+}
+
+.prestige-tier-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e8c547;
+}
+
+.prestige-tier-bonus {
+  font-size: 12px;
+  color: #a5d6a7;
+  margin: 4px 0 8px 0;
+}
+
+.prestige-tier-progress-bar {
+  height: 6px;
+  background-color: #444;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 8px 0 4px 0;
+}
+
+.prestige-tier-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e8c547, #f0d060);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.prestige-tier-next {
+  font-size: 11px;
+  color: #999;
+  margin: 2px 0 0 0;
+}
+
+.prestige-tier-max {
+  font-size: 12px;
+  color: #e8c547;
+  margin: 4px 0 0 0;
+  font-style: italic;
+}
+
 .prestige-reset-section {
   background-color: #2a2a2a;
   border: 1px solid #555;
@@ -107,6 +169,10 @@
   background-color: #3a3520;
 }
 
+.prestige-tier-locked {
+  opacity: 0.45;
+}
+
 .prestige-upgrade-info {
   display: flex;
   flex-direction: column;
@@ -118,6 +184,20 @@
   font-size: 13px;
   font-weight: bold;
   color: #ddd;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.prestige-upgrade-tier-tag {
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background-color: #555;
+  color: #e8c547;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .prestige-upgrade-desc {

@@ -2,12 +2,12 @@
 
 - New Desktop View similar to Cookie Clicker and option to change it.
 
-// Batch 1: Gameplay Features
-- Achievements System
-- Book Combos
-- Prestige Expansion
-- Timed Challenges
-- Book Enchantments
+// Batch 1: Gameplay Features (COMPLETE)
+// - Achievements System
+// - Book Combos
+// - Prestige Expansion
+// - Timed Challenges
+// - Book Enchantments
 
 // Batch 2: UI/UX
 - Idle Mini-Events
@@ -42,3 +42,7 @@
 - Add more tutorial or explanations. (Tooltips, follow alongs, etc.)
 - Book Combo Multipliers (integrated into knowledge generation)
 - Prestige System (Wisdom Points and permanent upgrades)
+- Achievements System (29 data-driven achievements with rewards and notifications)
+- Book Enchantments (8 enchantments applied to books for kN bonuses)
+- Timed Challenges (8 timed challenges with kN and WP rewards)
+- Prestige Expansion (6 tiers, 7 new upgrades, tier passive multipliers, reset bonus)

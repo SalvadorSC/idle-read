@@ -31,7 +31,7 @@ const IdleApp = () => {
   const { setShowGeneratedKnAlert, setRewardsTaken } =
     useContext(CounterContext);
   const { mute, setMute } = useContext(MiscContext);
-  const { prestigeUpgrades } = useContext(PrestigeContext);
+  const { prestigeUpgrades, totalWisdomEarned } = useContext(PrestigeContext);
   const [play] = useSound(soundUrl, { volume: mute ? 0 : 0.1 });
   const { increment } = useIncrementByClick(dependencies);
   const { parseNumber } = useNumberParsing();
@@ -40,7 +40,8 @@ const IdleApp = () => {
     dependencies.buffClass,
     dependencies.upgrades,
     prestigeUpgrades,
-    dependencies.bookEnchantments
+    dependencies.bookEnchantments,
+    totalWisdomEarned
   );
   const is_mobile =
     !!navigator.userAgent.match(/iphone|android|blackberry/gi) || false;

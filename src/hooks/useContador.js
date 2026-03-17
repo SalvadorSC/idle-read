@@ -30,10 +30,10 @@ export const useContador = (
     maxKn,
     setMaxKn,
   } = useContext(StatsContext);
-  const { prestigeUpgrades } = useContext(PrestigeContext);
+  const { prestigeUpgrades, totalWisdomEarned } = useContext(PrestigeContext);
   const sounds = [soundUrl1, soundUrl2];
   const [play] = useSound(sounds[1], { volume: mute ? 0 : 0.05 });
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments, totalWisdomEarned);
   const incrementEverySecond = () => {
     const totalKnOfThisRun =
       totalKnCountOfThisRun.generalKn +

@@ -2,9 +2,25 @@ import bookCombosData from "../data/bookCombos.json";
 import prestigeData from "../data/prestigeUpgrades.json";
 import enchantmentsData from "../data/enchantments.json";
 
-function getPrestigeMultipliers(prestigeUpgrades) {
+function getTierMultiplier(totalWisdomEarned) {
+  if (!prestigeData.prestigeTiers) return 1;
+  let tier = prestigeData.prestigeTiers[0];
+  for (const t of prestigeData.prestigeTiers) {
+    if ((totalWisdomEarned || 0) >= t.wpRequired) tier = t;
+  }
+  return tier.passiveMultiplier;
+}
+
+function getPrestigeMultipliers(prestigeUpgrades, totalWisdomEarned) {
   const multipliers = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
-  if (!prestigeUpgrades || !prestigeUpgrades.length) return multipliers;
+  if (!prestigeUpgrades || !prestigeUpgrades.length) {
+    const tierMult = getTierMultiplier(totalWisdomEarned);
+    multipliers.generalKn *= tierMult;
+    multipliers.bioKn *= tierMult;
+    multipliers.technoKn *= tierMult;
+    multipliers.cultureKn *= tierMult;
+    return multipliers;
+  }
   prestigeData.prestigeUpgrades.forEach((upgrade) => {
     if (prestigeUpgrades.includes(upgrade.id)) {
       multipliers.generalKn *= upgrade.multipliers.generalKn;
@@ -13,6 +29,12 @@ function getPrestigeMultipliers(prestigeUpgrades) {
       multipliers.cultureKn *= upgrade.multipliers.cultureKn;
     }
   });
+  // Apply tier passive multiplier
+  const tierMult = getTierMultiplier(totalWisdomEarned);
+  multipliers.generalKn *= tierMult;
+  multipliers.bioKn *= tierMult;
+  multipliers.technoKn *= tierMult;
+  multipliers.cultureKn *= tierMult;
   return multipliers;
 }
 
@@ -83,7 +105,7 @@ function getEnchantmentEffects(libro, bookEnchantments) {
   return { knMults, comboBoost };
 }
 
-export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds, bookEnchantments) => {
+export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds, bookEnchantments, totalWisdomEarned) => {
   const setChosenBookEffect = (item) => {
     let genrlKnCountWithEffects;
     let bioKnCountWithEffects;
@@ -98,7 +120,7 @@ export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds, book
 
     const { knMults: enchantMults, comboBoost } = getEnchantmentEffects(libro, bookEnchantments);
     const comboMults = getComboMultipliers(upgrades, comboBoost);
-    const prestigeMults = getPrestigeMultipliers(prestigeUpgradeIds);
+    const prestigeMults = getPrestigeMultipliers(prestigeUpgradeIds, totalWisdomEarned);
 
     // Check if this is a community book first
     const communityMultipliers = getCommunityBookMultipliers(libro);

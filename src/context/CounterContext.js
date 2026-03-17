@@ -88,6 +88,7 @@ export const CounterProvider = ({ children }) => {
     upgrades: state.upgrades,
     prestigeUpgrades: savegame ? savegame.prestigeUpgrades || [] : [],
     bookEnchantments: state.bookEnchantments,
+    totalWisdomEarned: savegame ? savegame.totalWisdomEarned || 0 : 0,
   };
 
   const {

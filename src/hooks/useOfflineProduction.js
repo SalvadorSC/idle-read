@@ -12,6 +12,7 @@ export const useOfflineProduction = (
     upgrades,
     prestigeUpgrades,
     bookEnchantments,
+    totalWisdomEarned,
   },
   buffClass
 ) => {
@@ -24,7 +25,7 @@ export const useOfflineProduction = (
     generatedTechnoKn: 0,
     generatedCultureKn: 0,
   });
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments, totalWisdomEarned);
   const {
     genrlKnCountWithEffects,
     bioKnCountWithEffects,

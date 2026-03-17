@@ -107,7 +107,7 @@ export const useIncrementByClick = () => {
     },
     buffClass
   );
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments, totalWisdomEarned);
 
   useEffect(() => {
     const timer = setTimeout(() => {
