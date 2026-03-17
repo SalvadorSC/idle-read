@@ -5,6 +5,7 @@ import IdleApp from "./components/IdleApp/IdleApp";
 import { StatsProvider } from "./context/StatsContext";
 import { MiscProvider } from "./context/MiscContext";
 import { BookSubmissionsProvider } from "./context/BookSubmissionsContext";
+import { PrestigeProvider } from "./context/PrestigeContext";
 
 function App() {
   return (
@@ -13,11 +14,13 @@ function App() {
         <CounterProvider>
           <StatsProvider>
             <MiscProvider>
-              <BookSubmissionsProvider>
-                <div className="App">
-                  <IdleApp />
-                </div>
-              </BookSubmissionsProvider>
+              <PrestigeProvider>
+                <BookSubmissionsProvider>
+                  <div className="App">
+                    <IdleApp />
+                  </div>
+                </BookSubmissionsProvider>
+              </PrestigeProvider>
             </MiscProvider>
           </StatsProvider>
         </CounterProvider>

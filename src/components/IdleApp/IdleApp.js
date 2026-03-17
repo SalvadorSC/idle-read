@@ -20,20 +20,24 @@ import { useChosenKn } from "../../hooks/useChosenKn";
 import { ReactFlowProvider } from "reactflow";
 import { BookSubmissions } from "../BookSubmissions/BookSubmissions";
 import { BookCombos } from "../BookCombos/BookCombos";
+import { Prestige } from "../Prestige/Prestige";
 import { Tooltip } from "../Tooltip/Tooltip";
+import PrestigeContext from "../../context/PrestigeContext";
 const IdleApp = () => {
   const dependencies = useContext(CounterContext);
   const statDependencies = useContext(StatsContext);
   const { setShowGeneratedKnAlert, setRewardsTaken } =
     useContext(CounterContext);
   const { mute, setMute } = useContext(MiscContext);
+  const { prestigeUpgrades } = useContext(PrestigeContext);
   const [play] = useSound(soundUrl, { volume: mute ? 0 : 0.1 });
   const { increment } = useIncrementByClick(dependencies);
   const { parseNumber } = useNumberParsing();
   const { setChosenBookEffect } = useChosenKn(
     dependencies.chosenBook,
     dependencies.buffClass,
-    dependencies.upgrades
+    dependencies.upgrades,
+    prestigeUpgrades
   );
   const is_mobile =
     !!navigator.userAgent.match(/iphone|android|blackberry/gi) || false;
@@ -226,6 +230,13 @@ const IdleApp = () => {
                   </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
+                  <Tooltip text="Reset for permanent bonuses" position="bottom">
+                    <Link className="second-half-nav-button" to="/prestige">
+                      Prestige
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
                   <Tooltip text="Save, load, reset, and settings" position="bottom">
                     <Link className="second-half-nav-button" to="/options">
                       Options
@@ -254,6 +265,9 @@ const IdleApp = () => {
             </Route>
             <Route path="/combos">
               <BookCombos />
+            </Route>
+            <Route path="/prestige">
+              <Prestige />
             </Route>
           </div>
         </>
@@ -420,6 +434,13 @@ const IdleApp = () => {
                   </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
+                  <Tooltip text="Reset for permanent bonuses" position="bottom">
+                    <Link className="second-half-nav-button" to="/prestige">
+                      Prestige
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
                   <Tooltip text="Save, load, reset, and settings" position="bottom">
                     <Link className="second-half-nav-button" to="/options">
                       Options
@@ -448,6 +469,9 @@ const IdleApp = () => {
             </Route>
             <Route path="/combos">
               <BookCombos />
+            </Route>
+            <Route path="/prestige">
+              <Prestige />
             </Route>
           </div>
         </div>

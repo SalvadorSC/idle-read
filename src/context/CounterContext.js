@@ -82,6 +82,7 @@ export const CounterProvider = ({ children }) => {
       dispatch({ type: actions.SET_LASTLOGIN, value });
     },
     upgrades: state.upgrades,
+    prestigeUpgrades: savegame ? savegame.prestigeUpgrades || [] : [],
   };
 
   const {

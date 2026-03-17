@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import CounterContext from "../context/CounterContext";
 import StatsContext from "../context/StatsContext";
+import PrestigeContext from "../context/PrestigeContext";
 
 export const useCheats = () => {
   const {
@@ -30,6 +31,11 @@ export const useCheats = () => {
     setPotenciaClick,
     setTotalKnCountOfThisRun,
   } = useContext(StatsContext);
+  const {
+    setWisdomPoints,
+    setTotalWisdomEarned,
+    setPrestigeUpgrades,
+  } = useContext(PrestigeContext);
   const resetGame = () => {
     setGoal(100);
     setMultiplicador(1);
@@ -107,6 +113,9 @@ export const useCheats = () => {
       technoKn: 0,
     });
     setPageTrees(0);
+    setWisdomPoints(0);
+    setTotalWisdomEarned(0);
+    setPrestigeUpgrades([]);
   };
   const cheat = () => {
     setKnCount({

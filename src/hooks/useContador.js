@@ -4,6 +4,7 @@ import soundUrl1 from "../assets/page-flip-01a.mp3";
 import soundUrl2 from "../assets/page-flip-03.mp3";
 import { useContext } from "react";
 import StatsContext from "../context/StatsContext";
+import PrestigeContext from "../context/PrestigeContext";
 
 export const useContador = (
   {
@@ -28,9 +29,10 @@ export const useContador = (
     maxKn,
     setMaxKn,
   } = useContext(StatsContext);
+  const { prestigeUpgrades } = useContext(PrestigeContext);
   const sounds = [soundUrl1, soundUrl2];
   const [play] = useSound(sounds[1], { volume: mute ? 0 : 0.05 });
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades);
   const incrementEverySecond = () => {
     const totalKnOfThisRun =
       totalKnCountOfThisRun.generalKn +

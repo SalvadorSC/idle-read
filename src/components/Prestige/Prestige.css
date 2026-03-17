@@ -1,0 +1,150 @@
+.prestige-container {
+  padding: 10px 15px;
+  color: white;
+  font-family: "Roboto Mono", monospace;
+}
+
+.prestige-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.prestige-title {
+  margin: 0 0 5px 0;
+  color: #e8c547;
+  font-size: 20px;
+}
+
+.prestige-wp {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.wp-amount {
+  color: #e8c547;
+  font-weight: bold;
+}
+
+.prestige-total-wp {
+  margin: 2px 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.prestige-reset-section {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.prestige-gain-info {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.prestige-formula {
+  margin: 4px 0;
+  font-size: 11px;
+  color: #777;
+}
+
+.prestige-button {
+  margin-top: 8px;
+  padding: 8px 20px;
+  background-color: #e8c547;
+  color: #222;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "Roboto Mono", monospace;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.prestige-button:hover:not(:disabled) {
+  background-color: #f0d060;
+  box-shadow: 0px 0px 10px 3px rgba(232, 197, 71, 0.4);
+}
+
+.prestige-button:disabled {
+  background-color: #555;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.prestige-upgrades {
+  margin-top: 10px;
+}
+
+.prestige-upgrades-title {
+  margin: 0 0 8px 0;
+  color: #e8c547;
+  font-size: 16px;
+}
+
+.prestige-upgrade-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  transition: border-color 0.3s;
+}
+
+.prestige-upgrade-item:hover {
+  border-color: #c7c2a9;
+}
+
+.prestige-owned {
+  border-color: #e8c547;
+  background-color: #3a3520;
+}
+
+.prestige-upgrade-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.prestige-upgrade-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #ddd;
+}
+
+.prestige-upgrade-desc {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.prestige-upgrade-button {
+  padding: 5px 12px;
+  background-color: #444;
+  color: #e8c547;
+  border: 1px solid #e8c547;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: "Roboto Mono", monospace;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s;
+}
+
+.prestige-upgrade-button:hover:not(:disabled) {
+  background-color: #555;
+}
+
+.prestige-upgrade-button:disabled {
+  border-color: #555;
+  color: #666;
+  cursor: not-allowed;
+}

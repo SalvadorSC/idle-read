@@ -5,6 +5,7 @@ import { useChosenKn } from "./useChosenKn";
 import StatsContext from "../context/StatsContext";
 import personajeOneLoop from "../assets/lecteur-oneloop-3-silla.gif";
 import MiscContext from "../context/MiscContext";
+import PrestigeContext from "../context/PrestigeContext";
 import { encode } from "base-64";
 export const useIncrementByClick = () => {
   const {
@@ -39,6 +40,7 @@ export const useIncrementByClick = () => {
     setMaxKn,
   } = useContext(StatsContext);
   const { mute, buffClass } = useContext(MiscContext);
+  const { prestigeUpgrades, wisdomPoints, totalWisdomEarned } = useContext(PrestigeContext);
   const save = useMemo(() => {
     return {
       multiplicador,
@@ -58,6 +60,9 @@ export const useIncrementByClick = () => {
       maxKn,
       lastLogin,
       pageTrees,
+      wisdomPoints,
+      totalWisdomEarned,
+      prestigeUpgrades,
     };
   }, [
     automatron1,
@@ -71,12 +76,15 @@ export const useIncrementByClick = () => {
     multiplicador,
     pageTrees,
     potenciaClick,
+    prestigeUpgrades,
     resets,
     squirrels,
     totalClicksOfAllTime,
     totalKnCountOfThisRun,
     totalKnOfAllTime,
+    totalWisdomEarned,
     upgrades,
+    wisdomPoints,
   ]);
   const { incrementEverySecond } = useContador(
     {
@@ -92,7 +100,7 @@ export const useIncrementByClick = () => {
     },
     buffClass
   );
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades);
 
   useEffect(() => {
     const timer = setTimeout(() => {
