@@ -42,6 +42,7 @@ const initialState = {
         technoKn: 0,
       },
   goal: savegame ? savegame.goal : 100,
+  unlockedAchievements: savegame ? savegame.unlockedAchievements || [] : [],
 };
 
 const actions = {
@@ -54,6 +55,7 @@ const actions = {
   SET_KNFORFEITEDATRESET: "SET_KNFORFEITEDATRESET",
   SET_MAXKN: "SET_MAXKN",
   SET_GOAL: "SET_GOAL",
+  SET_UNLOCKED_ACHIEVEMENTS: "SET_UNLOCKED_ACHIEVEMENTS",
 };
 
 function reducer(state, action) {
@@ -76,6 +78,8 @@ function reducer(state, action) {
       return { ...state, potenciaClick: action.value };
     case actions.SET_GOAL:
       return { ...state, goal: action.value };
+    case actions.SET_UNLOCKED_ACHIEVEMENTS:
+      return { ...state, unlockedAchievements: action.value };
     default:
       return state;
   }
@@ -93,6 +97,10 @@ export const StatsProvider = ({ children }) => {
     potenciaClick: state.potenciaClick,
     resets: state.resets,
     maxKn: state.maxKn,
+    unlockedAchievements: state.unlockedAchievements,
+    setUnlockedAchievements: (value) => {
+      dispatch({ type: actions.SET_UNLOCKED_ACHIEVEMENTS, value });
+    },
     setGoal: (value) => {
       dispatch({ type: actions.SET_GOAL, value });
     },

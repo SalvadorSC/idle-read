@@ -1,0 +1,236 @@
+{
+  "achievements": [
+    {
+      "id": "kn_100",
+      "name": "First Steps",
+      "description": "Reach a goal of 100 kN",
+      "category": "knowledge",
+      "condition": { "type": "goal", "value": 100 },
+      "reward": { "generalKn": 10 }
+    },
+    {
+      "id": "kn_1000",
+      "name": "Getting Started",
+      "description": "Reach a goal of 1,000 kN",
+      "category": "knowledge",
+      "condition": { "type": "goal", "value": 1000 },
+      "reward": { "generalKn": 50 }
+    },
+    {
+      "id": "kn_100k",
+      "name": "Scholar",
+      "description": "Reach a goal of 100,000 kN",
+      "category": "knowledge",
+      "condition": { "type": "goal", "value": 100000 },
+      "reward": { "generalKn": 500 }
+    },
+    {
+      "id": "kn_1m",
+      "name": "Professor",
+      "description": "Reach a goal of 1,000,000 kN",
+      "category": "knowledge",
+      "condition": { "type": "goal", "value": 1000000 },
+      "reward": { "generalKn": 5000 }
+    },
+    {
+      "id": "kn_1b",
+      "name": "Mastermind",
+      "description": "Reach a goal of 1,000,000,000 kN",
+      "category": "knowledge",
+      "condition": { "type": "goal", "value": 1000000000 },
+      "reward": { "generalKn": 50000 }
+    },
+    {
+      "id": "kn_10b",
+      "name": "Enlightened",
+      "description": "Reach a goal of 10,000,000,000 kN",
+      "category": "knowledge",
+      "condition": { "type": "goal", "value": 10000000000 },
+      "reward": { "generalKn": 500000 }
+    },
+    {
+      "id": "kn_100b",
+      "name": "Omniscient",
+      "description": "Reach a goal of 100,000,000,000 kN",
+      "category": "knowledge",
+      "condition": { "type": "goal", "value": 100000000000 },
+      "reward": { "generalKn": 5000000 }
+    },
+    {
+      "id": "clicks_500",
+      "name": "Bookworm",
+      "description": "Click 500 times",
+      "category": "clicks",
+      "condition": { "type": "clicks", "value": 500 },
+      "reward": { "generalKn": 25 }
+    },
+    {
+      "id": "clicks_10k",
+      "name": "Page Turner",
+      "description": "Click 10,000 times",
+      "category": "clicks",
+      "condition": { "type": "clicks", "value": 10000 },
+      "reward": { "generalKn": 250 }
+    },
+    {
+      "id": "clicks_100k",
+      "name": "Speed Reader",
+      "description": "Click 100,000 times",
+      "category": "clicks",
+      "condition": { "type": "clicks", "value": 100000 },
+      "reward": { "generalKn": 2500 }
+    },
+    {
+      "id": "mx_1",
+      "name": "Comprehension I",
+      "description": "Own 1 Multiplier",
+      "category": "buildings",
+      "condition": { "type": "multiplicador", "value": 2 },
+      "reward": { "generalKn": 5 }
+    },
+    {
+      "id": "mx_10",
+      "name": "Comprehension II",
+      "description": "Own 10 Multipliers",
+      "category": "buildings",
+      "condition": { "type": "multiplicador", "value": 10 },
+      "reward": { "generalKn": 50 }
+    },
+    {
+      "id": "mx_100",
+      "name": "Comprehension III",
+      "description": "Own 100 Multipliers",
+      "category": "buildings",
+      "condition": { "type": "multiplicador", "value": 100 },
+      "reward": { "generalKn": 500 }
+    },
+    {
+      "id": "mx_1000",
+      "name": "Comprehension IV",
+      "description": "Own 1,000 Multipliers",
+      "category": "buildings",
+      "condition": { "type": "multiplicador", "value": 1000 },
+      "reward": { "generalKn": 5000 }
+    },
+    {
+      "id": "auto_1",
+      "name": "Automation I",
+      "description": "Own 1 Automatron",
+      "category": "buildings",
+      "condition": { "type": "automatron1", "value": 1 },
+      "reward": { "technoKn": 50 }
+    },
+    {
+      "id": "auto_10",
+      "name": "Automation II",
+      "description": "Own 10 Automatrons",
+      "category": "buildings",
+      "condition": { "type": "automatron1", "value": 10 },
+      "reward": { "technoKn": 500 }
+    },
+    {
+      "id": "auto_100",
+      "name": "Automation III",
+      "description": "Own 100 Automatrons",
+      "category": "buildings",
+      "condition": { "type": "automatron1", "value": 100 },
+      "reward": { "technoKn": 5000 }
+    },
+    {
+      "id": "sqrr_1",
+      "name": "Squirrel Whisperer I",
+      "description": "Own 1 Squirrel",
+      "category": "buildings",
+      "condition": { "type": "squirrels", "value": 1 },
+      "reward": { "bioKn": 50 }
+    },
+    {
+      "id": "sqrr_10",
+      "name": "Squirrel Whisperer II",
+      "description": "Own 10 Squirrels",
+      "category": "buildings",
+      "condition": { "type": "squirrels", "value": 10 },
+      "reward": { "bioKn": 500 }
+    },
+    {
+      "id": "sqrr_100",
+      "name": "Squirrel Whisperer III",
+      "description": "Own 100 Squirrels",
+      "category": "buildings",
+      "condition": { "type": "squirrels", "value": 100 },
+      "reward": { "bioKn": 5000 }
+    },
+    {
+      "id": "pgtr_1",
+      "name": "Arborist I",
+      "description": "Own 1 PageTree",
+      "category": "buildings",
+      "condition": { "type": "pageTrees", "value": 1 },
+      "reward": { "bioKn": 100, "technoKn": 100 }
+    },
+    {
+      "id": "pgtr_10",
+      "name": "Arborist II",
+      "description": "Own 10 PageTrees",
+      "category": "buildings",
+      "condition": { "type": "pageTrees", "value": 10 },
+      "reward": { "bioKn": 1000, "technoKn": 1000 }
+    },
+    {
+      "id": "pgtr_100",
+      "name": "Arborist III",
+      "description": "Own 100 PageTrees",
+      "category": "buildings",
+      "condition": { "type": "pageTrees", "value": 100 },
+      "reward": { "bioKn": 10000, "technoKn": 10000 }
+    },
+    {
+      "id": "reset_1",
+      "name": "Fresh Start",
+      "description": "Reset once",
+      "category": "prestige",
+      "condition": { "type": "resets", "value": 1 },
+      "reward": { "generalKn": 100 }
+    },
+    {
+      "id": "reset_5",
+      "name": "Experienced",
+      "description": "Reset 5 times",
+      "category": "prestige",
+      "condition": { "type": "resets", "value": 5 },
+      "reward": { "generalKn": 1000 }
+    },
+    {
+      "id": "reset_10",
+      "name": "Veteran Reader",
+      "description": "Reset 10 times",
+      "category": "prestige",
+      "condition": { "type": "resets", "value": 10 },
+      "reward": { "generalKn": 10000 }
+    },
+    {
+      "id": "alltime_kn_10k",
+      "name": "Lifelong Learner",
+      "description": "Earn 10,000 total kN across all runs",
+      "category": "knowledge",
+      "condition": { "type": "totalKnAllTime", "value": 10000 },
+      "reward": { "cultureKn": 100 }
+    },
+    {
+      "id": "alltime_kn_1m",
+      "name": "Walking Encyclopedia",
+      "description": "Earn 1,000,000 total kN across all runs",
+      "category": "knowledge",
+      "condition": { "type": "totalKnAllTime", "value": 1000000 },
+      "reward": { "cultureKn": 10000 }
+    },
+    {
+      "id": "alltime_clicks_50k",
+      "name": "Dedicated Reader",
+      "description": "Click 50,000 times across all runs",
+      "category": "clicks",
+      "condition": { "type": "totalClicksAllTime", "value": 50000 },
+      "reward": { "generalKn": 5000 }
+    }
+  ]
+}

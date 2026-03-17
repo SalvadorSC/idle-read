@@ -38,6 +38,7 @@ export const useIncrementByClick = () => {
     setPotenciaClick,
     maxKn,
     setMaxKn,
+    unlockedAchievements,
   } = useContext(StatsContext);
   const { mute, buffClass } = useContext(MiscContext);
   const { prestigeUpgrades, wisdomPoints, totalWisdomEarned } = useContext(PrestigeContext);
@@ -63,6 +64,7 @@ export const useIncrementByClick = () => {
       wisdomPoints,
       totalWisdomEarned,
       prestigeUpgrades,
+      unlockedAchievements,
     };
   }, [
     automatron1,
@@ -83,6 +85,7 @@ export const useIncrementByClick = () => {
     totalKnCountOfThisRun,
     totalKnOfAllTime,
     totalWisdomEarned,
+    unlockedAchievements,
     upgrades,
     wisdomPoints,
   ]);

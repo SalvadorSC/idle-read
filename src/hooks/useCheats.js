@@ -30,6 +30,7 @@ export const useCheats = () => {
     setMaxKn,
     setPotenciaClick,
     setTotalKnCountOfThisRun,
+    setUnlockedAchievements,
   } = useContext(StatsContext);
   const {
     setWisdomPoints,
@@ -116,6 +117,7 @@ export const useCheats = () => {
     setWisdomPoints(0);
     setTotalWisdomEarned(0);
     setPrestigeUpgrades([]);
+    setUnlockedAchievements([]);
   };
   const cheat = () => {
     setKnCount({
