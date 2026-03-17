@@ -22,6 +22,7 @@ import { BookSubmissions } from "../BookSubmissions/BookSubmissions";
 import { BookCombos } from "../BookCombos/BookCombos";
 import { Prestige } from "../Prestige/Prestige";
 import { BookEnchantments } from "../BookEnchantments/BookEnchantments";
+import { TimedChallenges } from "../TimedChallenges/TimedChallenges";
 import { Tooltip } from "../Tooltip/Tooltip";
 import PrestigeContext from "../../context/PrestigeContext";
 const IdleApp = () => {
@@ -239,6 +240,13 @@ const IdleApp = () => {
                   </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
+                  <Tooltip text="Timed challenges for bonus rewards" position="bottom">
+                    <Link className="second-half-nav-button" to="/challenges">
+                      Challenges
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
                   <Tooltip text="Reset for permanent bonuses" position="bottom">
                     <Link className="second-half-nav-button" to="/prestige">
                       Prestige
@@ -277,6 +285,9 @@ const IdleApp = () => {
             </Route>
             <Route path="/enchant">
               <BookEnchantments />
+            </Route>
+            <Route path="/challenges">
+              <TimedChallenges />
             </Route>
             <Route path="/prestige">
               <Prestige />
@@ -453,6 +464,13 @@ const IdleApp = () => {
                   </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
+                  <Tooltip text="Timed challenges for bonus rewards" position="bottom">
+                    <Link className="second-half-nav-button" to="/challenges">
+                      Challenges
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
                   <Tooltip text="Reset for permanent bonuses" position="bottom">
                     <Link className="second-half-nav-button" to="/prestige">
                       Prestige
@@ -491,6 +509,9 @@ const IdleApp = () => {
             </Route>
             <Route path="/enchant">
               <BookEnchantments />
+            </Route>
+            <Route path="/challenges">
+              <TimedChallenges />
             </Route>
             <Route path="/prestige">
               <Prestige />
