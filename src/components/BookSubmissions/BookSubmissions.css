@@ -1,0 +1,333 @@
+.book-submissions {
+  margin: 0 auto;
+  width: 80%;
+  padding: 20px;
+  color: white;
+}
+
+.submissions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.submissions-title {
+  text-align: left;
+  margin: 0;
+}
+
+.phase-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.phase-indicator {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.phase-submit {
+  background-color: #4a9c5b;
+  color: white;
+}
+
+.phase-vote {
+  background-color: #d3c26e;
+  color: #333;
+}
+
+.phase-timer {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* Submission Form */
+.submission-section {
+  background-color: #444;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.already-submitted {
+  text-align: center;
+  padding: 20px;
+}
+
+.already-submitted p {
+  margin: 5px 0;
+}
+
+.submitted-hint {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.submission-form h4 {
+  margin: 0 0 15px 0;
+  text-align: left;
+}
+
+.form-field {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.form-field label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #ccc;
+}
+
+.form-field input[type="text"],
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+  font-family: "Roboto Mono";
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.form-field textarea {
+  resize: vertical;
+}
+
+.form-field select {
+  cursor: pointer;
+}
+
+.kn-multipliers .kn-inputs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.kn-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 60px;
+}
+
+.kn-input-group label {
+  text-align: center;
+  font-size: 12px;
+}
+
+.kn-input-group input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+  font-family: "Roboto Mono";
+  font-size: 13px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.kn-budget {
+  color: #4a9c5b;
+  font-size: 11px;
+}
+
+.kn-over {
+  color: #e74c3c;
+  font-size: 11px;
+}
+
+.submit-book-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4a9c5b;
+  color: white;
+  font-family: "Roboto Mono";
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 5px;
+}
+
+.submit-book-btn:hover {
+  background-color: #5cb86c;
+}
+
+.submit-book-btn:disabled {
+  background-color: #555;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* Submissions List */
+.submissions-list {
+  margin-bottom: 20px;
+}
+
+.submissions-list h4 {
+  text-align: left;
+  margin: 0 0 10px 0;
+}
+
+.submission-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #444;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  transition: box-shadow 0.3s;
+}
+
+.submission-card.leading {
+  box-shadow: 0px 0px 8px 2px #d3c26e;
+}
+
+.submission-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.submission-rank {
+  font-size: 16px;
+  font-weight: bold;
+  color: #888;
+  min-width: 30px;
+}
+
+.submission-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.submission-book-title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.submission-description {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.submission-field {
+  font-size: 11px;
+  color: #888;
+}
+
+.submission-vote-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vote-count {
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 25px;
+  text-align: center;
+}
+
+.vote-btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #d3c26e;
+  color: #333;
+  font-family: "Roboto Mono";
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.vote-btn:hover {
+  background-color: #e0d07b;
+}
+
+.voted-message {
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.no-submissions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #888;
+}
+
+/* Winners Section */
+.winners-section {
+  margin-top: 20px;
+  border-top: 1px solid #666;
+  padding-top: 15px;
+}
+
+.winners-section h4 {
+  text-align: left;
+  margin: 0 0 10px 0;
+}
+
+.winner-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #3a3a3a;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+  border-left: 3px solid #d3c26e;
+}
+
+.winner-trophy {
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #d3c26e;
+  color: #333;
+  border-radius: 4px;
+  padding: 2px 6px;
+  min-width: 28px;
+  text-align: center;
+}
+
+.winner-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.winner-book-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.winner-description {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.winner-week {
+  font-size: 11px;
+  color: #666;
+}

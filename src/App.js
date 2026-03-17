@@ -4,6 +4,7 @@ import { CounterProvider } from "./context/CounterContext";
 import IdleApp from "./components/IdleApp/IdleApp";
 import { StatsProvider } from "./context/StatsContext";
 import { MiscProvider } from "./context/MiscContext";
+import { BookSubmissionsProvider } from "./context/BookSubmissionsContext";
 
 function App() {
   return (
@@ -12,9 +13,11 @@ function App() {
         <CounterProvider>
           <StatsProvider>
             <MiscProvider>
-              <div className="App">
-                <IdleApp />
-              </div>
+              <BookSubmissionsProvider>
+                <div className="App">
+                  <IdleApp />
+                </div>
+              </BookSubmissionsProvider>
             </MiscProvider>
           </StatsProvider>
         </CounterProvider>

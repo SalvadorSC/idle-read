@@ -1,3 +1,22 @@
+// Look up community book multipliers from localStorage
+function getCommunityBookMultipliers(bookTitle) {
+  try {
+    const saved = localStorage.getItem("bookSubmissions");
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.winners) {
+        const winner = data.winners.find((w) => w.title === bookTitle);
+        if (winner && winner.knMultipliers) {
+          return winner.knMultipliers;
+        }
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+  return null;
+}
+
 export const useChosenKn = (libro, buffClass, upgrades) => {
   const setChosenBookEffect = (item) => {
     let genrlKnCountWithEffects;
@@ -10,6 +29,18 @@ export const useChosenKn = (libro, buffClass, upgrades) => {
     ) {
       item = item * 3;
     }
+
+    // Check if this is a community book first
+    const communityMultipliers = getCommunityBookMultipliers(libro);
+    if (communityMultipliers) {
+      return {
+        genrlKnCountWithEffects: item * communityMultipliers.generalKn,
+        bioKnCountWithEffects: item * communityMultipliers.bioKn,
+        technoKnCountWithEffects: item * communityMultipliers.technoKn,
+        cultureKnCountWithEffects: item * communityMultipliers.cultureKn,
+      };
+    }
+
     switch (libro) {
       case "General Culture I":
         genrlKnCountWithEffects = item * 1;

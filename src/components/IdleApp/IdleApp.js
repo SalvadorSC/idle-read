@@ -18,6 +18,7 @@ import MiscContext from "../../context/MiscContext";
 import { Buff } from "../Buff/Buff";
 import { useChosenKn } from "../../hooks/useChosenKn";
 import { ReactFlowProvider } from "reactflow";
+import { BookSubmissions } from "../BookSubmissions/BookSubmissions";
 const IdleApp = () => {
   const dependencies = useContext(CounterContext);
   const statDependencies = useContext(StatsContext);
@@ -192,6 +193,11 @@ const IdleApp = () => {
                   </Link>
                 </li>
                 <li className="second-half-ul-li">
+                  <Link className="second-half-nav-button" to="/community">
+                    Community
+                  </Link>
+                </li>
+                <li className="second-half-ul-li">
                   <Link className="second-half-nav-button" to="/options">
                     Options
                   </Link>
@@ -212,6 +218,9 @@ const IdleApp = () => {
               <ReactFlowProvider>
                 <Shelf />
               </ReactFlowProvider>
+            </Route>
+            <Route path="/community">
+              <BookSubmissions />
             </Route>
           </div>
         </>
@@ -351,6 +360,11 @@ const IdleApp = () => {
                   </Link>
                 </li>
                 <li className="second-half-ul-li">
+                  <Link className="second-half-nav-button" to="/community">
+                    Community
+                  </Link>
+                </li>
+                <li className="second-half-ul-li">
                   <Link className="second-half-nav-button" to="/options">
                     Options
                   </Link>
@@ -371,6 +385,9 @@ const IdleApp = () => {
               <ReactFlowProvider>
                 <Shelf />
               </ReactFlowProvider>
+            </Route>
+            <Route path="/community">
+              <BookSubmissions />
             </Route>
           </div>
         </div>
