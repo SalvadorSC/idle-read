@@ -1,3 +1,28 @@
+import bookCombosData from "../data/bookCombos.json";
+
+function getComboMultipliers(upgrades) {
+  if (!upgrades) return { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
+  const ownedBooks = [
+    ...(upgrades.multiplicador || []),
+    ...(upgrades.technology || []),
+    ...(upgrades.nature || []),
+    ...(upgrades.culture || []),
+  ];
+  const multipliers = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
+  bookCombosData.bookCombos.forEach((combo) => {
+    const isActive = combo.requiredBookCount
+      ? ownedBooks.length >= combo.requiredBookCount
+      : combo.requiredBooks.every((book) => ownedBooks.includes(book));
+    if (isActive) {
+      multipliers.generalKn *= combo.bonusMultipliers.generalKn;
+      multipliers.bioKn *= combo.bonusMultipliers.bioKn;
+      multipliers.technoKn *= combo.bonusMultipliers.technoKn;
+      multipliers.cultureKn *= combo.bonusMultipliers.cultureKn;
+    }
+  });
+  return multipliers;
+}
+
 // Look up community book multipliers from localStorage
 function getCommunityBookMultipliers(bookTitle) {
   try {
@@ -30,14 +55,16 @@ export const useChosenKn = (libro, buffClass, upgrades) => {
       item = item * 3;
     }
 
+    const comboMults = getComboMultipliers(upgrades);
+
     // Check if this is a community book first
     const communityMultipliers = getCommunityBookMultipliers(libro);
     if (communityMultipliers) {
       return {
-        genrlKnCountWithEffects: item * communityMultipliers.generalKn,
-        bioKnCountWithEffects: item * communityMultipliers.bioKn,
-        technoKnCountWithEffects: item * communityMultipliers.technoKn,
-        cultureKnCountWithEffects: item * communityMultipliers.cultureKn,
+        genrlKnCountWithEffects: item * communityMultipliers.generalKn * comboMults.generalKn,
+        bioKnCountWithEffects: item * communityMultipliers.bioKn * comboMults.bioKn,
+        technoKnCountWithEffects: item * communityMultipliers.technoKn * comboMults.technoKn,
+        cultureKnCountWithEffects: item * communityMultipliers.cultureKn * comboMults.cultureKn,
       };
     }
 
@@ -139,10 +166,10 @@ export const useChosenKn = (libro, buffClass, upgrades) => {
         cultureKnCountWithEffects = item * 0.25;
     }
     return {
-      genrlKnCountWithEffects,
-      bioKnCountWithEffects,
-      technoKnCountWithEffects,
-      cultureKnCountWithEffects,
+      genrlKnCountWithEffects: genrlKnCountWithEffects * comboMults.generalKn,
+      bioKnCountWithEffects: bioKnCountWithEffects * comboMults.bioKn,
+      technoKnCountWithEffects: technoKnCountWithEffects * comboMults.technoKn,
+      cultureKnCountWithEffects: cultureKnCountWithEffects * comboMults.cultureKn,
     };
   };
 
