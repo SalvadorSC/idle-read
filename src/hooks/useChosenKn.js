@@ -97,24 +97,22 @@ function getEnchantmentEffects(libro, bookEnchantments) {
 }
 
 export const useChosenKn = (libro, buffClass, upgrades, prestigeUpgradeIds, bookEnchantments, totalWisdomEarned) => {
+  // Compute multipliers once per render, not per setChosenBookEffect call
+  const { knMults: enchantMults, comboBoost } = getEnchantmentEffects(libro, bookEnchantments);
+  const comboMults = getComboMultipliers(upgrades, comboBoost);
+  const prestigeMults = getPrestigeMultipliers(prestigeUpgradeIds, totalWisdomEarned);
+  const communityMultipliers = getCommunityBookMultipliers(libro);
+  const hasBuff = buffClass === "active-buff" && upgrades && upgrades.culture && upgrades.culture.includes("Atomic habits");
+
   const setChosenBookEffect = (item) => {
     let genrlKnCountWithEffects;
     let bioKnCountWithEffects;
     let technoKnCountWithEffects;
     let cultureKnCountWithEffects;
-    if (
-      buffClass === "active-buff" &&
-      upgrades.culture.includes("Atomic habits")
-    ) {
+    if (hasBuff) {
       item = item * 3;
     }
 
-    const { knMults: enchantMults, comboBoost } = getEnchantmentEffects(libro, bookEnchantments);
-    const comboMults = getComboMultipliers(upgrades, comboBoost);
-    const prestigeMults = getPrestigeMultipliers(prestigeUpgradeIds, totalWisdomEarned);
-
-    // Check if this is a community book first
-    const communityMultipliers = getCommunityBookMultipliers(libro);
     if (communityMultipliers) {
       return {
         genrlKnCountWithEffects: item * communityMultipliers.generalKn * enchantMults.generalKn * comboMults.generalKn * prestigeMults.generalKn,
