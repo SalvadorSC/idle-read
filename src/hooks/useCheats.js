@@ -68,8 +68,10 @@ export const useCheats = () => {
     setTotalClicksOfAllTime(totalClicksOfAllTime);
     setUpgrades(baseUpgrades);
     setKnForfeitedAtReset({
-      ...knForfeitedAtReset,
       generalKn: knForfeitedAtReset.generalKn + knCount.generalKn,
+      bioKn: knForfeitedAtReset.bioKn + knCount.bioKn,
+      technoKn: knForfeitedAtReset.technoKn + knCount.technoKn,
+      cultureKn: knForfeitedAtReset.cultureKn + knCount.cultureKn,
     });
     setChosenBook("General Culture I");
     setBookEnchantments({});

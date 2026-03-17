@@ -24,6 +24,7 @@ export const useContador = (
   const {
     goal,
     setGoal,
+    totalKnOfAllTime,
     setTotalKnOfAllTime,
     totalKnCountOfThisRun,
     setTotalKnCountOfThisRun,
@@ -65,71 +66,37 @@ export const useContador = (
       bioKnCountWithEffects: bioKnCountWithPageTreeEffects,
       technoKnCountWithEffects: technoKnCountWithPageTreeEffects,
     } = setChosenBookEffect(pageTrees);
+    // Compute deltas once
+    const deltaGeneral =
+      Math.floor(
+        (genrlKnCountWithEffects + genrlKnCountWithSquirrelEffects) * 100
+      ) / 100;
+    const deltaBio =
+      Math.floor(
+        (bioKnCountWithEffects + bioKnCountWithPageTreeEffects * 2) * 100
+      ) / 100;
+    const deltaTechno =
+      Math.floor(
+        (technoKnCountWithEffects + technoKnCountWithPageTreeEffects * 2) * 100
+      ) / 100;
+
     setKnCount({
       ...knCount,
-      generalKn:
-        knCount.generalKn +
-        Math.floor(
-          (genrlKnCountWithEffects + genrlKnCountWithSquirrelEffects) * 100
-        ) /
-          100,
-      bioKn:
-        knCount.bioKn +
-        Math.floor(
-          (bioKnCountWithEffects + bioKnCountWithPageTreeEffects * 2) * 100
-        ) /
-          100,
-      technoKn:
-        knCount.technoKn +
-        Math.floor(
-          (technoKnCountWithEffects + technoKnCountWithPageTreeEffects * 2) *
-            100
-        ) /
-          100,
+      generalKn: knCount.generalKn + deltaGeneral,
+      bioKn: knCount.bioKn + deltaBio,
+      technoKn: knCount.technoKn + deltaTechno,
     });
     setTotalKnCountOfThisRun({
       ...totalKnCountOfThisRun,
-      generalKn:
-        totalKnCountOfThisRun.generalKn +
-        Math.floor(
-          (genrlKnCountWithEffects + genrlKnCountWithSquirrelEffects) * 100
-        ) /
-          100,
-      bioKn:
-        knCount.bioKn +
-        Math.floor(
-          (bioKnCountWithEffects + bioKnCountWithPageTreeEffects * 2) * 100
-        ) /
-          100,
-      technoKn:
-        knCount.technoKn +
-        Math.floor(
-          (technoKnCountWithEffects + technoKnCountWithPageTreeEffects * 2) *
-            100
-        ) /
-          100,
+      generalKn: totalKnCountOfThisRun.generalKn + deltaGeneral,
+      bioKn: totalKnCountOfThisRun.bioKn + deltaBio,
+      technoKn: totalKnCountOfThisRun.technoKn + deltaTechno,
     });
     setTotalKnOfAllTime({
-      ...totalKnCountOfThisRun,
-      generalKn:
-        knCount.generalKn +
-        Math.floor(
-          (genrlKnCountWithEffects + genrlKnCountWithSquirrelEffects) * 100
-        ) /
-          100,
-      bioKn:
-        knCount.bioKn +
-        Math.floor(
-          (bioKnCountWithEffects + bioKnCountWithPageTreeEffects * 2) * 100
-        ) /
-          100,
-      technoKn:
-        knCount.technoKn +
-        Math.floor(
-          (technoKnCountWithEffects + technoKnCountWithPageTreeEffects * 2) *
-            100
-        ) /
-          100,
+      ...totalKnOfAllTime,
+      generalKn: totalKnOfAllTime.generalKn + deltaGeneral,
+      bioKn: totalKnOfAllTime.bioKn + deltaBio,
+      technoKn: totalKnOfAllTime.technoKn + deltaTechno,
     });
 
     // Update Progress Bar

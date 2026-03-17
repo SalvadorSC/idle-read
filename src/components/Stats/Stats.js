@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import CounterContext from "../../context/CounterContext";
 import StatsContext from "../../context/StatsContext";
 import { Tooltip } from "../Tooltip/Tooltip";
@@ -43,6 +43,15 @@ function checkCondition(condition, state) {
   }
 }
 
+function formatKnReward(reward) {
+  const parts = [];
+  if (reward.generalKn) parts.push(`+${reward.generalKn} kN`);
+  if (reward.bioKn) parts.push(`+${reward.bioKn} bioKn`);
+  if (reward.technoKn) parts.push(`+${reward.technoKn} technoKn`);
+  if (reward.cultureKn) parts.push(`+${reward.cultureKn} cultureKn`);
+  return parts.join(", ");
+}
+
 export const Stats = () => {
   const {
     automatron1,
@@ -77,46 +86,57 @@ export const Stats = () => {
     totalKnOfAllTime.technoKn +
     totalKnOfAllTime.cultureKn;
 
-  const state = {
-    goal,
-    clicks,
-    multiplicador,
-    automatron1,
-    squirrels,
-    pageTrees,
-    resets,
-    totalKnOfAllTime,
-    totalClicksAllTime: totalClicksOfAllTime,
-  };
-
-  const claimReward = useCallback(
-    (achievement) => {
-      if (unlockedAchievements.includes(achievement.id)) return;
-      const reward = achievement.reward;
-      setKnCount({
-        ...knCount,
-        generalKn: knCount.generalKn + (reward.generalKn || 0),
-        bioKn: knCount.bioKn + (reward.bioKn || 0),
-        technoKn: knCount.technoKn + (reward.technoKn || 0),
-        cultureKn: knCount.cultureKn + (reward.cultureKn || 0),
-      });
-      setUnlockedAchievements([...unlockedAchievements, achievement.id]);
-      setNotification(achievement);
-    },
-    [knCount, setKnCount, unlockedAchievements, setUnlockedAchievements]
+  const state = useMemo(
+    () => ({
+      goal,
+      clicks,
+      multiplicador,
+      automatron1,
+      squirrels,
+      pageTrees,
+      resets,
+      totalKnOfAllTime,
+      totalClicksAllTime: totalClicksOfAllTime,
+    }),
+    [goal, clicks, multiplicador, automatron1, squirrels, pageTrees, resets, totalKnOfAllTime, totalClicksOfAllTime]
   );
 
-  // Auto-claim newly unlocked achievements
+  // Find all newly unlockable achievements in one pass and batch-claim them
   useEffect(() => {
-    achievementsData.achievements.forEach((achievement) => {
-      if (
-        !unlockedAchievements.includes(achievement.id) &&
-        checkCondition(achievement.condition, state)
-      ) {
-        claimReward(achievement);
-      }
+    const newlyUnlocked = achievementsData.achievements.filter(
+      (a) =>
+        !unlockedAchievements.includes(a.id) &&
+        checkCondition(a.condition, state)
+    );
+    if (newlyUnlocked.length === 0) return;
+
+    // Sum all rewards
+    let totalReward = { generalKn: 0, bioKn: 0, technoKn: 0, cultureKn: 0 };
+    for (const a of newlyUnlocked) {
+      totalReward.generalKn += a.reward.generalKn || 0;
+      totalReward.bioKn += a.reward.bioKn || 0;
+      totalReward.technoKn += a.reward.technoKn || 0;
+      totalReward.cultureKn += a.reward.cultureKn || 0;
+    }
+
+    // Single state update for kN
+    setKnCount({
+      ...knCount,
+      generalKn: knCount.generalKn + totalReward.generalKn,
+      bioKn: knCount.bioKn + totalReward.bioKn,
+      technoKn: knCount.technoKn + totalReward.technoKn,
+      cultureKn: knCount.cultureKn + totalReward.cultureKn,
     });
-  });
+
+    // Single state update for unlocked list
+    setUnlockedAchievements([
+      ...unlockedAchievements,
+      ...newlyUnlocked.map((a) => a.id),
+    ]);
+
+    // Show notification for the last one unlocked
+    setNotification(newlyUnlocked[newlyUnlocked.length - 1]);
+  }, [state, unlockedAchievements, knCount, setKnCount, setUnlockedAchievements]);
 
   // Auto-dismiss notification
   useEffect(() => {
@@ -126,18 +146,7 @@ export const Stats = () => {
     }
   }, [notification]);
 
-  const unlockedCount = achievementsData.achievements.filter((a) =>
-    unlockedAchievements.includes(a.id)
-  ).length;
-
-  const formatReward = (reward) => {
-    const parts = [];
-    if (reward.generalKn) parts.push(`+${reward.generalKn} kN`);
-    if (reward.bioKn) parts.push(`+${reward.bioKn} bioKn`);
-    if (reward.technoKn) parts.push(`+${reward.technoKn} technoKn`);
-    if (reward.cultureKn) parts.push(`+${reward.cultureKn} cultureKn`);
-    return parts.join(", ");
-  };
+  const unlockedCount = unlockedAchievements.length;
 
   return (
     <>
@@ -150,7 +159,7 @@ export const Stats = () => {
             </p>
             <p className="achievement-notification-name">{notification.name}</p>
             <p className="achievement-notification-reward">
-              {formatReward(notification.reward)}
+              {formatKnReward(notification.reward)}
             </p>
           </div>
         </div>
@@ -181,7 +190,7 @@ export const Stats = () => {
                   key={achievement.id}
                   text={
                     isUnlocked
-                      ? `${achievement.description} — ${formatReward(achievement.reward)}`
+                      ? `${achievement.description} — ${formatKnReward(achievement.reward)}`
                       : achievement.description
                   }
                   position="top"
