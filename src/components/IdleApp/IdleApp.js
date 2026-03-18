@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, Route } from "react-router-dom";
 import { Options } from "../Options/Options";
 import { Shop } from "../Shop/Shop";
@@ -30,7 +30,7 @@ const IdleApp = () => {
   const statDependencies = useContext(StatsContext);
   const { setShowGeneratedKnAlert, setRewardsTaken } =
     useContext(CounterContext);
-  const { mute, setMute } = useContext(MiscContext);
+  const { mute, setMute, theme, setTheme } = useContext(MiscContext);
   const { prestigeUpgrades, totalWisdomEarned } = useContext(PrestigeContext);
   const [play] = useSound(soundUrl, { volume: mute ? 0 : 0.1 });
   const { increment } = useIncrementByClick(dependencies);
@@ -43,6 +43,14 @@ const IdleApp = () => {
     dependencies.bookEnchantments,
     totalWisdomEarned
   );
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   const is_mobile =
     !!navigator.userAgent.match(/iphone|android|blackberry/gi) || false;
   const [showPrimaryView, setShowPrimaryView] = useState(is_mobile);
@@ -124,6 +132,9 @@ const IdleApp = () => {
                   Change View
                 </button>
               )}
+              <button className="theme-toggle-btn" onClick={toggleTheme}>
+                {theme === "dark" ? "L" : "D"}
+              </button>
               <button className="mute-button" onClick={() => setMute(!mute)}>
                 {mute ? "Unmute" : "Mute"}
               </button>
@@ -309,6 +320,9 @@ const IdleApp = () => {
                 onClick={() => setShowPrimaryView(!showPrimaryView)}
               >
                 Change View
+              </button>
+              <button className="theme-toggle-btn" onClick={toggleTheme}>
+                {theme === "dark" ? "L" : "D"}
               </button>
               <button className="mute-button" onClick={() => setMute(!mute)}>
                 {mute ? "Unmute" : "Mute"}

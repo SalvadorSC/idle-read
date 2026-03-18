@@ -1,5 +1,5 @@
 .book-combos-panel {
-  background-color: #333;
+  background-color: var(--bg-primary);
   border-radius: 8px;
   padding: 16px;
   margin-top: 16px;
@@ -8,7 +8,7 @@
 }
 
 .book-combos-panel h3 {
-  color: #d3c26e;
+  color: var(--glow-gold);
   margin: 0 0 12px 0;
   font-size: 1.1rem;
   text-align: center;
@@ -21,15 +21,15 @@
 }
 
 .book-combo-item {
-  background-color: #555;
+  background-color: var(--bg-secondary);
   border-radius: 6px;
   padding: 10px 12px;
   transition: box-shadow 0.3s ease;
 }
 
 .book-combo-item.active {
-  box-shadow: 0 0 10px 2px #d3c26e;
-  border: 1px solid #d3c26e;
+  box-shadow: 0 0 10px 2px var(--glow-gold);
+  border: 1px solid var(--glow-gold);
 }
 
 .book-combo-item.inactive {
@@ -46,12 +46,12 @@
 
 .combo-name {
   font-weight: bold;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.95rem;
 }
 
 .combo-name.active {
-  color: #d3c26e;
+  color: var(--glow-gold);
 }
 
 .combo-badge {
@@ -63,17 +63,17 @@
 }
 
 .combo-badge.active {
-  background-color: #d3c26e;
-  color: #333;
+  background-color: var(--glow-gold);
+  color: var(--bg-primary);
 }
 
 .combo-badge.inactive {
-  background-color: #444;
-  color: #999;
+  background-color: var(--bg-tertiary);
+  color: var(--text-muted);
 }
 
 .combo-description {
-  color: #ccc;
+  color: var(--text-secondary);
   font-size: 0.8rem;
   margin: 4px 0;
 }
@@ -85,7 +85,7 @@
 }
 
 .combo-progress {
-  color: #999;
+  color: var(--text-muted);
   font-size: 0.7rem;
   margin-top: 4px;
 }

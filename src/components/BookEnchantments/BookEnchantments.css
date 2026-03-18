@@ -1,5 +1,5 @@
 .enchantments-panel {
-  background-color: #333;
+  background-color: var(--bg-primary);
   border-radius: 8px;
   padding: 16px;
   margin-top: 16px;
@@ -15,14 +15,14 @@
 }
 
 .enchantments-subtitle {
-  color: #999;
+  color: var(--text-muted);
   font-size: 0.8rem;
   text-align: center;
   margin: 0 0 16px 0;
 }
 
 .enchantments-label {
-  color: #ccc;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   margin: 0 0 8px 0;
   font-weight: bold;
@@ -40,7 +40,7 @@
 }
 
 .enchantment-book-card {
-  background-color: #444;
+  background-color: var(--bg-tertiary);
   border: 2px solid transparent;
   border-radius: 6px;
   padding: 8px 12px;
@@ -50,7 +50,7 @@
 }
 
 .enchantment-book-card:hover {
-  border-color: #666;
+  border-color: var(--border-input);
 }
 
 .enchantment-book-card.selected {
@@ -67,7 +67,7 @@
 }
 
 .enchantment-book-name {
-  color: white;
+  color: var(--text-primary);
   font-size: 0.85rem;
   display: block;
 }
@@ -88,7 +88,7 @@
 .enchantment-remove-btn {
   background: none;
   border: none;
-  color: #999;
+  color: var(--text-muted);
   font-size: 16px;
   cursor: pointer;
   padding: 0 4px;
@@ -100,7 +100,7 @@
 }
 
 .enchantments-available {
-  border-top: 1px solid #555;
+  border-top: 1px solid var(--bg-secondary);
   padding-top: 12px;
 }
 
@@ -111,7 +111,7 @@
 }
 
 .enchantment-item {
-  background-color: #555;
+  background-color: var(--bg-secondary);
   border-radius: 6px;
   padding: 10px 12px;
   border: 1px solid transparent;
@@ -136,7 +136,7 @@
 
 .enchantment-name {
   font-weight: bold;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.95rem;
 }
 
@@ -147,17 +147,17 @@
   font-weight: bold;
   text-transform: uppercase;
   background-color: #b39ddb;
-  color: #333;
+  color: var(--bg-primary);
 }
 
 .enchantment-description {
-  color: #ccc;
+  color: var(--text-secondary);
   font-size: 0.8rem;
   margin: 4px 0;
 }
 
 .enchantment-cost {
-  color: #999;
+  color: var(--text-muted);
   font-size: 0.75rem;
   margin: 4px 0 8px 0;
 }
@@ -178,8 +178,8 @@
 }
 
 .enchantment-apply-btn:disabled {
-  background-color: #555;
-  color: #888;
+  background-color: var(--bg-secondary);
+  color: var(--text-dim);
   cursor: not-allowed;
 }
 

@@ -10,9 +10,9 @@
 }
 
 .stats-container {
-  background-color: rgb(76, 75, 99);
+  background-color: var(--bg-panel);
   padding: 20px;
-  color: white;
+  color: var(--text-primary);
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
@@ -27,7 +27,7 @@
 .stats-section-title {
   width: 80%;
   font-size: 25px;
-  color: white;
+  color: var(--text-primary);
 }
 
 .achievement-container {
@@ -38,7 +38,7 @@
   min-height: 150px;
   text-align: left;
   padding: 0 25px;
-  background-color: rgb(76, 75, 99);
+  background-color: var(--bg-panel);
 
   border-radius: 10px;
 }
@@ -50,10 +50,10 @@
   align-items: center;
   justify-content: center;
   margin: 40px 25px;
-  background-color: #333;
+  background-color: var(--bg-primary);
   vertical-align: middle;
   border-radius: 10px;
-  color: white;
+  color: var(--text-primary);
   font-size: 12px;
   text-align: center;
   padding: 5px;
@@ -68,8 +68,8 @@
 }
 
 .achievement-locked {
-  color: #666;
-  border-color: #444;
+  color: var(--text-dim);
+  border-color: var(--border-secondary);
 }
 
 .achievement-notification {
@@ -77,8 +77,8 @@
   top: 20px;
   right: 20px;
   z-index: 200;
-  background-color: #2a2a2a;
-  border: 2px solid #e8c547;
+  background-color: var(--notification-bg);
+  border: 2px solid var(--accent-gold);
   border-radius: 10px;
   padding: 12px 18px;
   display: flex;
@@ -91,13 +91,13 @@
 
 .achievement-notification-icon {
   font-size: 28px;
-  color: #e8c547;
+  color: var(--accent-gold);
 }
 
 .achievement-notification-title {
   margin: 0;
   font-size: 11px;
-  color: #999;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -105,14 +105,14 @@
 .achievement-notification-name {
   margin: 2px 0;
   font-size: 15px;
-  color: #e8c547;
+  color: var(--accent-gold);
   font-weight: bold;
 }
 
 .achievement-notification-reward {
   margin: 0;
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-dim);
 }
 
 @keyframes slideIn {

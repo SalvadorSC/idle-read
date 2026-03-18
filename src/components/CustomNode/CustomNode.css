@@ -3,20 +3,20 @@
   border: none;
   display: flex;
   flex-direction: column;
-  color: white;
+  color: var(--text-primary);
   align-items: center;
   justify-content: center;
-  background-color: #333;
+  background-color: var(--btn-bg);
   padding: 5%;
   min-width: 100px;
   height: 100px;
   min-height: 100px;
 }
 .custom-node:hover {
-  background-color: #444;
+  background-color: var(--btn-bg-hover);
 }
 
 .custom-node:disabled {
-  background-color: rgb(43, 43, 43);
-  color: rgb(155, 155, 155);
+  background-color: var(--btn-bg-disabled);
+  color: var(--text-disabled);
 }

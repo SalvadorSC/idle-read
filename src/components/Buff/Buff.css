@@ -1,13 +1,13 @@
 button {
-  color: white;
-  background-color: #444;
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border: none;
   cursor: pointer;
   border-radius: 3px;
 }
 button:hover {
-  background-color: #666;
+  background-color: var(--bg-newbooks);
   box-shadow: rgba(255, 255, 255, 0.35) 0px 0px 10px;
 }
 

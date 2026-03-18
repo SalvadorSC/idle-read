@@ -1,5 +1,5 @@
 .timed-challenges-panel {
-  background-color: #333;
+  background-color: var(--bg-primary);
   border-radius: 8px;
   padding: 16px;
   margin-top: 16px;
@@ -15,7 +15,7 @@
 }
 
 .challenges-subtitle {
-  color: #999;
+  color: var(--text-muted);
   font-size: 0.8rem;
   text-align: center;
   margin: 0 0 16px 0;
@@ -28,7 +28,7 @@
 }
 
 .challenge-item {
-  background-color: #555;
+  background-color: var(--bg-secondary);
   border-radius: 6px;
   padding: 10px 12px;
   border: 1px solid transparent;
@@ -62,20 +62,20 @@
 
 .challenge-name {
   font-weight: bold;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.95rem;
 }
 
 .challenge-duration {
   font-size: 0.75rem;
-  color: #999;
-  background-color: #444;
+  color: var(--text-muted);
+  background-color: var(--bg-tertiary);
   padding: 2px 8px;
   border-radius: 10px;
 }
 
 .challenge-description {
-  color: #ccc;
+  color: var(--text-secondary);
   font-size: 0.8rem;
   margin: 4px 0;
 }
@@ -100,7 +100,7 @@
 
 .challenge-progress-bar {
   height: 8px;
-  background-color: #444;
+  background-color: var(--bg-tertiary);
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 4px;
@@ -114,7 +114,7 @@
 }
 
 .challenge-progress-text {
-  color: #ccc;
+  color: var(--text-secondary);
   font-size: 0.75rem;
   text-align: right;
 }
@@ -162,12 +162,12 @@
 }
 
 .challenge-cooldown-text {
-  color: #999;
+  color: var(--text-muted);
   font-size: 0.8rem;
 }
 
 .challenge-locked-text {
-  color: #777;
+  color: var(--text-dim);
   font-size: 0.8rem;
   font-style: italic;
 }

@@ -6,9 +6,9 @@
 .tooltip-box {
   position: absolute;
   z-index: 100;
-  background-color: #222;
-  color: #ddd;
-  border: 1px solid #c7c2a9;
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  border: 1px solid var(--tooltip-border);
   border-radius: 6px;
   padding: 6px 10px;
   font-size: 12px;

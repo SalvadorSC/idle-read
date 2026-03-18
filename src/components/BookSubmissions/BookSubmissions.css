@@ -2,7 +2,7 @@
   margin: 0 auto;
   width: 80%;
   padding: 20px;
-  color: white;
+  color: var(--text-primary);
 }
 
 .submissions-header {
@@ -38,18 +38,18 @@
 }
 
 .phase-vote {
-  background-color: #d3c26e;
-  color: #333;
+  background-color: var(--glow-gold);
+  color: var(--bg-primary);
 }
 
 .phase-timer {
   font-size: 11px;
-  color: #aaa;
+  color: var(--text-dim);
 }
 
 /* Submission Form */
 .submission-section {
-  background-color: #444;
+  background-color: var(--submission-section-bg);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
@@ -65,7 +65,7 @@
 }
 
 .submitted-hint {
-  color: #aaa;
+  color: var(--text-dim);
   font-size: 13px;
 }
 
@@ -83,7 +83,7 @@
   display: block;
   font-size: 13px;
   margin-bottom: 4px;
-  color: #ccc;
+  color: var(--text-secondary);
 }
 
 .form-field input[type="text"],
@@ -91,10 +91,10 @@
 .form-field select {
   width: 100%;
   padding: 8px;
-  border: 1px solid #666;
+  border: 1px solid var(--border-input);
   border-radius: 4px;
-  background-color: #333;
-  color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: "Roboto Mono";
   font-size: 13px;
   box-sizing: border-box;
@@ -130,10 +130,10 @@
 .kn-input-group input {
   width: 100%;
   padding: 6px;
-  border: 1px solid #666;
+  border: 1px solid var(--border-input);
   border-radius: 4px;
-  background-color: #333;
-  color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: "Roboto Mono";
   font-size: 13px;
   text-align: center;
@@ -169,8 +169,8 @@
 }
 
 .submit-book-btn:disabled {
-  background-color: #555;
-  color: #888;
+  background-color: var(--bg-secondary);
+  color: var(--text-dim);
   cursor: not-allowed;
 }
 
@@ -188,7 +188,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #444;
+  background-color: var(--submission-card-bg);
   border-radius: 6px;
   padding: 12px 16px;
   margin-bottom: 8px;
@@ -196,7 +196,7 @@
 }
 
 .submission-card.leading {
-  box-shadow: 0px 0px 8px 2px #d3c26e;
+  box-shadow: 0px 0px 8px 2px var(--glow-gold);
 }
 
 .submission-info {
@@ -209,7 +209,7 @@
 .submission-rank {
   font-size: 16px;
   font-weight: bold;
-  color: #888;
+  color: var(--text-dim);
   min-width: 30px;
 }
 
@@ -226,12 +226,12 @@
 
 .submission-description {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-dim);
 }
 
 .submission-field {
   font-size: 11px;
-  color: #888;
+  color: var(--text-dim);
 }
 
 .submission-vote-section {
@@ -251,8 +251,8 @@
   padding: 6px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #d3c26e;
-  color: #333;
+  background-color: var(--glow-gold);
+  color: var(--bg-primary);
   font-family: "Roboto Mono";
   font-size: 13px;
   font-weight: bold;
@@ -266,7 +266,7 @@
 
 .voted-message {
   text-align: center;
-  color: #aaa;
+  color: var(--text-dim);
   font-size: 13px;
   margin-top: 10px;
 }
@@ -274,13 +274,13 @@
 .no-submissions {
   text-align: center;
   padding: 40px 20px;
-  color: #888;
+  color: var(--text-dim);
 }
 
 /* Winners Section */
 .winners-section {
   margin-top: 20px;
-  border-top: 1px solid #666;
+  border-top: 1px solid var(--border-input);
   padding-top: 15px;
 }
 
@@ -293,18 +293,18 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background-color: #3a3a3a;
+  background-color: var(--winner-card-bg);
   border-radius: 6px;
   padding: 10px 14px;
   margin-bottom: 6px;
-  border-left: 3px solid #d3c26e;
+  border-left: 3px solid var(--glow-gold);
 }
 
 .winner-trophy {
   font-size: 12px;
   font-weight: bold;
-  background-color: #d3c26e;
-  color: #333;
+  background-color: var(--glow-gold);
+  color: var(--bg-primary);
   border-radius: 4px;
   padding: 2px 6px;
   min-width: 28px;
@@ -324,10 +324,10 @@
 
 .winner-description {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-dim);
 }
 
 .winner-week {
   font-size: 11px;
-  color: #666;
+  color: var(--text-dim);
 }

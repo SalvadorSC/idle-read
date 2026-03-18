@@ -1,15 +1,15 @@
 .kn-amount-display {
-  background-color: #333;
+  background-color: var(--bg-primary);
   font-size: 15px;
   width: 325px;
   display: flex;
   justify-content: space-around;
   border-radius: 0px 0 10px 10px;
-  background: rgb(51, 51, 51);
+  background: var(--bg-primary);
   background: linear-gradient(
     180deg,
-    rgba(51, 51, 51, 1) 67%,
-    rgba(51, 51, 51, 0.5466561624649859) 100%
+    var(--bg-primary) 67%,
+    var(--bg-overlay-light) 100%
   );
   cursor: default;
 }
@@ -36,15 +36,15 @@
 
 .music-tag {
   margin: 0;
-  color: white;
+  color: var(--text-primary);
 }
 
 .display-stats {
-  background-color: #333;
+  background-color: var(--bg-primary);
   margin: 0;
   width: 100%;
   font-size: 15px;
-  color: white;
+  color: var(--text-primary);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -61,7 +61,7 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
-  background-color: #33333390;
+  background-color: var(--bg-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,16 +72,16 @@
 }
 
 .generatedKn-p {
-  background-color: #333;
+  background-color: var(--bg-primary);
   padding: 25px;
   border-radius: 10px;
-  color: white;
+  color: var(--text-primary);
 }
 
 .generatedKn-button {
-  background-color: #ccc;
+  background-color: var(--text-secondary);
   border-radius: 5px;
-  color: white;
+  color: var(--text-primary);
   border: none;
   display: inline-flex;
   justify-content: center;
@@ -95,8 +95,8 @@
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 .generatedKn-button:hover {
-  background-color: #fff;
-  color: #333;
+  background-color: var(--btn-bg-hover);
+  color: var(--text-primary);
 }
 .character-container {
   width: 100%;
@@ -138,8 +138,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #333;
-  box-shadow: 0px 0px 5px 3px #c7c2a9;
+  background-color: var(--bg-primary);
+  box-shadow: 0px 0px 5px 3px var(--glow-tan);
   font-size: 18px;
 }
 
@@ -173,47 +173,45 @@
   border: none;
   display: flex;
   flex-direction: column;
-  color: white;
+  color: var(--text-primary);
   align-items: center;
   justify-content: center;
-  background-color: #333;
+  background-color: var(--btn-bg);
   padding: 5%;
   height: 100%;
   min-width: 100px;
 }
 
 .upgrade-name:hover {
-  background-color: #444;
+  background-color: var(--btn-bg-hover);
 }
 
 .upgrade-name:disabled {
-  background-color: rgb(43, 43, 43);
-  color: rgb(155, 155, 155);
+  background-color: var(--btn-bg-disabled);
+  color: var(--text-disabled);
 }
 .upgrade-bought {
-  background-color: #333;
-  color: white;
-  /* -webkit-box-shadow: 0px 0px 9px 3px #c7c2a9;
-  box-shadow: 0px 0px 9px 3px #c7c2a9; */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 span.upgrade-bought {
   background-color: transparent;
   border-radius: 3px;
-  color: white;
-  -webkit-box-shadow: 0px 0px 5px 3px #c7c2a9;
-  box-shadow: 0px 0px 5px 3px #c7c2a9;
+  color: var(--text-primary);
+  -webkit-box-shadow: 0px 0px 5px 3px var(--glow-tan);
+  box-shadow: 0px 0px 5px 3px var(--glow-tan);
 }
 
 .chosen-book {
-  -webkit-box-shadow: 0px 0px 15px 5px #d3c26e;
-  box-shadow: 0px 0px 15px 5px #d3c26e;
+  -webkit-box-shadow: 0px 0px 15px 5px var(--glow-gold);
+  box-shadow: 0px 0px 15px 5px var(--glow-gold);
 }
 span.chosen-book {
   background-color: transparent;
   border-radius: 3px;
-  color: white;
-  -webkit-box-shadow: 0px 0px 5px 3px #d3c26e;
-  box-shadow: 0px 0px 5px 3px #d3c26e;
+  color: var(--text-primary);
+  -webkit-box-shadow: 0px 0px 5px 3px var(--glow-gold);
+  box-shadow: 0px 0px 5px 3px var(--glow-gold);
 }
 
 .w-25-flex {
@@ -246,13 +244,13 @@ span.chosen-book {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: white;
-  border: 2px solid #ccc;
+  color: var(--text-primary);
+  border: 2px solid var(--border-primary);
   min-width: 355px;
   max-width: 100%;
   width: 325px;
   padding: 0px 5px;
-  background-color: rgba(45, 44, 85, 0.7);
+  background-color: var(--bg-info);
 }
 .upgrade-info-toggle-box {
   text-align: left;
@@ -261,12 +259,12 @@ span.chosen-book {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: white;
-  border: 2px solid #ccc;
+  color: var(--text-primary);
+  border: 2px solid var(--border-primary);
   min-width: 50px;
   width: 150px;
   padding: 0px 5px;
-  background-color: rgba(45, 44, 85, 0.7);
+  background-color: var(--bg-info);
 }
 
 .upgrade-info-box p {
@@ -275,7 +273,7 @@ span.chosen-book {
 }
 
 .mute-button {
-  background-color: rgba(204, 204, 204, 0.5);
+  background-color: var(--btn-mute-bg);
   border: none;
   width: 60px;
 }
