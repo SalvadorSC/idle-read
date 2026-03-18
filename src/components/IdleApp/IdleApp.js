@@ -129,7 +129,7 @@ const IdleApp = () => {
                 </button>
               )}
               <button className="theme-toggle-btn" onClick={toggleTheme}>
-                {theme === "dark" ? "L" : "D"}
+                {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
               </button>
               <button className="mute-button" onClick={() => setMute(!mute)}>
                 {mute ? "Unmute" : "Mute"}
@@ -318,7 +318,7 @@ const IdleApp = () => {
                 Change View
               </button>
               <button className="theme-toggle-btn" onClick={toggleTheme}>
-                {theme === "dark" ? "L" : "D"}
+                {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
               </button>
               <button className="mute-button" onClick={() => setMute(!mute)}>
                 {mute ? "Unmute" : "Mute"}

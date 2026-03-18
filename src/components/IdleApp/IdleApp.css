@@ -18,7 +18,14 @@
 }
 .kn-amount-horizontal-display {
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  gap: 8px;
+  border-radius: 0;
+  background: transparent;
+  padding: 4px 0;
+}
+.kn-amount-ps {
+  white-space: nowrap;
 }
 
 .bioKn {
