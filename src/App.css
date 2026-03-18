@@ -140,13 +140,14 @@ body {
 }
 
 .header {
-  padding-left: 5%;
+  padding: 0 8px 0 5%;
   height: 45px;
   background-color: var(--bg-secondary);
   margin: 0;
   text-align: left;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header h1 {

@@ -120,20 +120,22 @@ const IdleApp = () => {
                 {BoopButton()}
               </form>
 
-              {!is_mobile && (
-                <button
-                  className="view-button"
-                  onClick={() => setShowPrimaryView(!showPrimaryView)}
-                >
-                  Change View
+              <div className="header-controls">
+                {!is_mobile && (
+                  <button
+                    className="view-button"
+                    onClick={() => setShowPrimaryView(!showPrimaryView)}
+                  >
+                    Change View
+                  </button>
+                )}
+                <button className="theme-toggle-btn" onClick={toggleTheme}>
+                  {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
                 </button>
-              )}
-              <button className="theme-toggle-btn" onClick={toggleTheme}>
-                {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
-              </button>
-              <button className="mute-button" onClick={() => setMute(!mute)}>
-                {mute ? "Unmute" : "Mute"}
-              </button>
+                <button className="mute-button" onClick={() => setMute(!mute)}>
+                  {mute ? "Unmute" : "Mute"}
+                </button>
+              </div>
             </div>
 
             <div className="display-stats">
@@ -311,18 +313,20 @@ const IdleApp = () => {
                 {BoopButton()}
               </form>
 
-              <button
-                className="view-button"
-                onClick={() => setShowPrimaryView(!showPrimaryView)}
-              >
-                Change View
-              </button>
-              <button className="theme-toggle-btn" onClick={toggleTheme}>
-                {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
-              </button>
-              <button className="mute-button" onClick={() => setMute(!mute)}>
-                {mute ? "Unmute" : "Mute"}
-              </button>
+              <div className="header-controls">
+                <button
+                  className="view-button"
+                  onClick={() => setShowPrimaryView(!showPrimaryView)}
+                >
+                  Change View
+                </button>
+                <button className="theme-toggle-btn" onClick={toggleTheme}>
+                  {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
+                </button>
+                <button className="mute-button" onClick={() => setMute(!mute)}>
+                  {mute ? "Unmute" : "Mute"}
+                </button>
+              </div>
             </div>
 
             <div className="display-stats">
