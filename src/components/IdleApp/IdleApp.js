@@ -58,17 +58,13 @@ const IdleApp = () => {
     const characterGif = document.querySelector(
       !showPrimaryView ? ".character" : ".character-cc"
     );
-    if (
-      !dependencies.automatron1 ||
-      !dependencies.squirrels ||
-      !dependencies.pageTrees
-    ) {
-      characterGif.src = personajeOneLoop;
-      // eslint-disable-next-line no-self-assign
-      characterGif.src = characterGif.src;
-    } else {
-      // eslint-disable-next-line no-self-assign
-      characterGif.src = characterGif.src;
+    if (characterGif) {
+      const src = characterGif.src;
+      characterGif.src = "";
+      // Force browser to restart the GIF by clearing then restoring src
+      requestAnimationFrame(() => {
+        characterGif.src = src;
+      });
     }
   };
   const handleClick = () => {
