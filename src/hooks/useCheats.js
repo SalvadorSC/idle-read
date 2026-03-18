@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import CounterContext from "../context/CounterContext";
 import StatsContext from "../context/StatsContext";
+import PrestigeContext from "../context/PrestigeContext";
 
 export const useCheats = () => {
   const {
@@ -13,6 +14,7 @@ export const useCheats = () => {
     setPageTrees,
     setUpgrades,
     baseUpgrades,
+    setBookEnchantments,
   } = useContext(CounterContext);
   const {
     setGoal,
@@ -29,7 +31,13 @@ export const useCheats = () => {
     setMaxKn,
     setPotenciaClick,
     setTotalKnCountOfThisRun,
+    setUnlockedAchievements,
   } = useContext(StatsContext);
+  const {
+    setWisdomPoints,
+    setTotalWisdomEarned,
+    setPrestigeUpgrades,
+  } = useContext(PrestigeContext);
   const resetGame = () => {
     setGoal(100);
     setMultiplicador(1);
@@ -60,10 +68,13 @@ export const useCheats = () => {
     setTotalClicksOfAllTime(totalClicksOfAllTime);
     setUpgrades(baseUpgrades);
     setKnForfeitedAtReset({
-      ...knForfeitedAtReset,
       generalKn: knForfeitedAtReset.generalKn + knCount.generalKn,
+      bioKn: knForfeitedAtReset.bioKn + knCount.bioKn,
+      technoKn: knForfeitedAtReset.technoKn + knCount.technoKn,
+      cultureKn: knForfeitedAtReset.cultureKn + knCount.cultureKn,
     });
     setChosenBook("General Culture I");
+    setBookEnchantments({});
   };
   const resetAllGame = () => {
     setGoal(100);
@@ -107,6 +118,11 @@ export const useCheats = () => {
       technoKn: 0,
     });
     setPageTrees(0);
+    setWisdomPoints(0);
+    setTotalWisdomEarned(0);
+    setPrestigeUpgrades([]);
+    setUnlockedAchievements([]);
+    setBookEnchantments({});
   };
   const cheat = () => {
     setKnCount({

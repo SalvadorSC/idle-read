@@ -1,10 +1,11 @@
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef, useCallback } from "react";
 import CounterContext from "../context/CounterContext";
 import { useContador } from "./useContador";
 import { useChosenKn } from "./useChosenKn";
 import StatsContext from "../context/StatsContext";
 import personajeOneLoop from "../assets/lecteur-oneloop-3-silla.gif";
 import MiscContext from "../context/MiscContext";
+import PrestigeContext from "../context/PrestigeContext";
 import { encode } from "base-64";
 export const useIncrementByClick = () => {
   const {
@@ -19,6 +20,7 @@ export const useIncrementByClick = () => {
     lastLogin,
     upgrades,
     stop,
+    bookEnchantments,
   } = useContext(CounterContext);
   const {
     goal,
@@ -37,8 +39,10 @@ export const useIncrementByClick = () => {
     setPotenciaClick,
     maxKn,
     setMaxKn,
+    unlockedAchievements,
   } = useContext(StatsContext);
   const { mute, buffClass } = useContext(MiscContext);
+  const { prestigeUpgrades, wisdomPoints, totalWisdomEarned } = useContext(PrestigeContext);
   const save = useMemo(() => {
     return {
       multiplicador,
@@ -58,9 +62,15 @@ export const useIncrementByClick = () => {
       maxKn,
       lastLogin,
       pageTrees,
+      wisdomPoints,
+      totalWisdomEarned,
+      prestigeUpgrades,
+      unlockedAchievements,
+      bookEnchantments,
     };
   }, [
     automatron1,
+    bookEnchantments,
     chosenBook,
     clicks,
     goal,
@@ -71,12 +81,16 @@ export const useIncrementByClick = () => {
     multiplicador,
     pageTrees,
     potenciaClick,
+    prestigeUpgrades,
     resets,
     squirrels,
     totalClicksOfAllTime,
     totalKnCountOfThisRun,
     totalKnOfAllTime,
+    totalWisdomEarned,
+    unlockedAchievements,
     upgrades,
+    wisdomPoints,
   ]);
   const { incrementEverySecond } = useContador(
     {
@@ -89,10 +103,11 @@ export const useIncrementByClick = () => {
       chosenBook,
       pageTrees,
       upgrades,
+      bookEnchantments,
     },
     buffClass
   );
-  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades);
+  const { setChosenBookEffect } = useChosenKn(chosenBook, buffClass, upgrades, prestigeUpgrades, bookEnchantments, totalWisdomEarned);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -110,11 +125,32 @@ export const useIncrementByClick = () => {
     return () => clearTimeout(timer);
   });
 
-  // save function
+  // Debounced save — write to localStorage at most every 5 seconds
+  const saveTimerRef = useRef(null);
+  const latestSaveRef = useRef(save);
+  latestSaveRef.current = save;
+
   useEffect(() => {
-    localStorage.setItem("save", JSON.stringify(save));
-    localStorage.setItem("encodedSave", encode(JSON.stringify(save)));
+    if (saveTimerRef.current) return; // already scheduled
+    saveTimerRef.current = setTimeout(() => {
+      const json = JSON.stringify(latestSaveRef.current);
+      localStorage.setItem("save", json);
+      localStorage.setItem("encodedSave", encode(json));
+      saveTimerRef.current = null;
+    }, 5000);
   }, [save]);
+
+  // Flush save on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimerRef.current) {
+        clearTimeout(saveTimerRef.current);
+        const json = JSON.stringify(latestSaveRef.current);
+        localStorage.setItem("save", json);
+        localStorage.setItem("encodedSave", encode(json));
+      }
+    };
+  }, []);
 
   const increment = () => {
     const {

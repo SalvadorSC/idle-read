@@ -1,10 +1,118 @@
+/* === Theme Variables === */
+:root,
+[data-theme="dark"] {
+  --bg-primary: #333;
+  --bg-secondary: #555;
+  --bg-tertiary: #444;
+  --bg-deep: #2a2a2a;
+  --bg-panel: rgb(76, 75, 99);
+  --bg-overlay: rgba(51, 51, 51, 0.9);
+  --bg-overlay-light: rgba(51, 51, 51, 0.5);
+  --bg-info: rgba(45, 44, 85, 0.7);
+  --bg-newbooks: #666;
+
+  --text-primary: white;
+  --text-secondary: #ccc;
+  --text-muted: #999;
+  --text-dim: #888;
+  --text-disabled: rgb(155, 155, 155);
+
+  --border-primary: #ccc;
+  --border-secondary: #444;
+  --border-input: #666;
+
+  --scrollbar-thumb: #cec8d0;
+  --scrollbar-track: transparent;
+
+  --btn-bg: #333;
+  --btn-bg-hover: #444;
+  --btn-bg-disabled: rgb(43, 43, 43);
+  --btn-mute-bg: rgba(204, 204, 204, 0.5);
+
+  --glow-tan: #c7c2a9;
+  --glow-gold: #d3c26e;
+  --accent-gold: #e8c547;
+
+  --tooltip-bg: #222;
+  --tooltip-text: #ddd;
+  --tooltip-border: #c7c2a9;
+
+  --description-bg: #ccc;
+  --description-text: #333;
+
+  --reset-btn-bg: rgb(85, 44, 44);
+  --reset-btn-hover: rgb(156, 20, 20);
+  --copy-btn-bg: teal;
+  --copy-btn-hover: rgb(0, 151, 151);
+
+  --notification-bg: #2a2a2a;
+
+  --prestige-owned-bg: #3a3520;
+  --winner-card-bg: #3a3a3a;
+  --submission-card-bg: #444;
+  --submission-section-bg: #444;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f5f0;
+  --bg-secondary: #e8e4dc;
+  --bg-tertiary: #ebe7df;
+  --bg-deep: #f0ece4;
+  --bg-panel: #d8d4cc;
+  --bg-overlay: rgba(245, 245, 240, 0.95);
+  --bg-overlay-light: rgba(245, 245, 240, 0.7);
+  --bg-info: rgba(220, 215, 200, 0.85);
+  --bg-newbooks: #ddd8d0;
+
+  --text-primary: #2a2a2a;
+  --text-secondary: #444;
+  --text-muted: #666;
+  --text-dim: #777;
+  --text-disabled: #aaa;
+
+  --border-primary: #999;
+  --border-secondary: #ccc;
+  --border-input: #bbb;
+
+  --scrollbar-thumb: #bbb;
+  --scrollbar-track: transparent;
+
+  --btn-bg: #ddd8d0;
+  --btn-bg-hover: #ccc7bf;
+  --btn-bg-disabled: #e8e4dc;
+  --btn-mute-bg: rgba(150, 150, 150, 0.3);
+
+  --glow-tan: #b0a880;
+  --glow-gold: #c4b050;
+  --accent-gold: #b8960f;
+
+  --tooltip-bg: #f5f5f0;
+  --tooltip-text: #333;
+  --tooltip-border: #b0a880;
+
+  --description-bg: #f0ece4;
+  --description-text: #333;
+
+  --reset-btn-bg: #c25a5a;
+  --reset-btn-hover: #a03030;
+  --copy-btn-bg: #2a8a8a;
+  --copy-btn-hover: #1f7070;
+
+  --notification-bg: #f5f5f0;
+
+  --prestige-owned-bg: #ece5c8;
+  --winner-card-bg: #e0dcd4;
+  --submission-card-bg: #e0dcd4;
+  --submission-section-bg: #e0dcd4;
+}
+
 body {
   overflow: hidden;
 }
 
 * {
   scrollbar-width: auto;
-  scrollbar-color: #cec8d0 #ffffff;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 /* Chrome, Edge, and Safari */
@@ -13,13 +121,13 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  background: #ffffff00;
+  background: var(--scrollbar-track);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #cec8d0;
+  background-color: var(--scrollbar-thumb);
   border-radius: 10px;
-  border: 3px solid #ffffff00;
+  border: 3px solid transparent;
 }
 .unselectable {
   -webkit-touch-callout: none;
@@ -29,22 +137,17 @@ body {
   -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .header {
-  padding-left: 5%;
+  padding: 0 8px 0 5%;
   height: 45px;
-  background-color: #555;
+  background-color: var(--bg-secondary);
   margin: 0;
   text-align: left;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header h1 {
@@ -57,15 +160,12 @@ body {
 }
 
 .display-knCount {
-  background-color: #333;
-  background-image: url("https://via.placeholder.com/256x384");
-  background-image: url("https://via.placeholder.com/384x384");
+  background-color: var(--bg-primary);
   background-image: url("./assets/libreria.webp");
   background-size: contain;
-  /* background-repeat: repeat; */
   margin: 0;
   font-size: 50px;
-  color: white;
+  color: var(--text-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -86,13 +186,13 @@ body {
 }
 
 .second-half {
-  background-color: #555;
+  background-color: var(--bg-secondary);
   height: 50vh;
 
   overflow-y: scroll;
 }
 .second-half-cc {
-  background-color: #555;
+  background-color: var(--bg-secondary);
   height: 100vh;
   width: 78%;
   overflow-y: scroll;
@@ -108,7 +208,7 @@ body {
   display: flex;
   align-items: center;
   height: 60px;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid var(--bg-primary);
 }
 
 .second-half-ul {
@@ -120,18 +220,11 @@ body {
   padding: 0;
 }
 
-/* .second-half-ul-li {
-  padding-left: 20%;
-}
-.second-half-ul-li + .second-half-ul-li {
-  padding-left: 2%;
-} */
-
 .second-half-ul li a {
   text-decoration: none;
-  background-color: #333;
+  background-color: var(--btn-bg);
   font-size: 15px;
-  color: white;
+  color: var(--text-primary);
   border: none;
   padding: 8px;
   border-radius: 5px;
@@ -139,9 +232,25 @@ body {
 }
 
 .second-half-ul li a:hover {
-  background-color: #444;
+  background-color: var(--btn-bg-hover);
 }
 
 button {
   font-family: "Roboto Mono" /* , "Bona Nova" */;
+}
+
+/* Theme toggle */
+.theme-toggle-btn {
+  background-color: var(--btn-mute-bg);
+  border: none;
+  width: 40px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }

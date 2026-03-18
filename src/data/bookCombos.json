@@ -1,0 +1,77 @@
+{
+  "bookCombos": [
+    {
+      "id": "nature_scholar",
+      "name": "Nature Scholar",
+      "description": "Master the natural world by reading all nature books.",
+      "requiredBooks": ["Introduction to Nature", "Nature inside out", "The grand book of animals"],
+      "bonusMultipliers": {
+        "generalKn": 1,
+        "bioKn": 1.3,
+        "technoKn": 1,
+        "cultureKn": 1
+      }
+    },
+    {
+      "id": "tech_wizard",
+      "name": "Tech Wizard",
+      "description": "Become a technology expert by mastering all tech books.",
+      "requiredBooks": ["Technology for dummies", "DIY at home", "Steps into robotics"],
+      "bonusMultipliers": {
+        "generalKn": 1,
+        "bioKn": 1,
+        "technoKn": 1.3,
+        "cultureKn": 1
+      }
+    },
+    {
+      "id": "culture_maven",
+      "name": "Culture Maven",
+      "description": "Absorb the richness of culture through literature and history.",
+      "requiredBooks": ["Novel", "Poems of Rose", "History about humanity I"],
+      "bonusMultipliers": {
+        "generalKn": 1,
+        "bioKn": 1,
+        "technoKn": 1,
+        "cultureKn": 1.3
+      }
+    },
+    {
+      "id": "generalist",
+      "name": "Generalist",
+      "description": "A well-rounded foundation in general knowledge.",
+      "requiredBooks": ["General Culture I", "General Culture II", "General Culture III"],
+      "bonusMultipliers": {
+        "generalKn": 1.2,
+        "bioKn": 1,
+        "technoKn": 1,
+        "cultureKn": 1
+      }
+    },
+    {
+      "id": "renaissance_reader",
+      "name": "Renaissance Reader",
+      "description": "Own 12 or more books to prove your dedication to knowledge.",
+      "requiredBooks": [],
+      "requiredBookCount": 12,
+      "bonusMultipliers": {
+        "generalKn": 1.5,
+        "bioKn": 1.5,
+        "technoKn": 1.5,
+        "cultureKn": 1.5
+      }
+    },
+    {
+      "id": "dream_builder",
+      "name": "Dream Builder",
+      "description": "Combine dreams and technology to build the future.",
+      "requiredBooks": ["Are you dreaming?", "Steps into robotics"],
+      "bonusMultipliers": {
+        "generalKn": 1,
+        "bioKn": 1,
+        "technoKn": 1.2,
+        "cultureKn": 1.2
+      }
+    }
+  ]
+}

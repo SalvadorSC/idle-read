@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, Route } from "react-router-dom";
 import { Options } from "../Options/Options";
 import { Shop } from "../Shop/Shop";
@@ -18,20 +18,39 @@ import MiscContext from "../../context/MiscContext";
 import { Buff } from "../Buff/Buff";
 import { useChosenKn } from "../../hooks/useChosenKn";
 import { ReactFlowProvider } from "reactflow";
+import { BookSubmissions } from "../BookSubmissions/BookSubmissions";
+import { BookCombos } from "../BookCombos/BookCombos";
+import { Prestige } from "../Prestige/Prestige";
+import { BookEnchantments } from "../BookEnchantments/BookEnchantments";
+import { TimedChallenges } from "../TimedChallenges/TimedChallenges";
+import { Tooltip } from "../Tooltip/Tooltip";
+import PrestigeContext from "../../context/PrestigeContext";
 const IdleApp = () => {
   const dependencies = useContext(CounterContext);
   const statDependencies = useContext(StatsContext);
   const { setShowGeneratedKnAlert, setRewardsTaken } =
     useContext(CounterContext);
-  const { mute, setMute } = useContext(MiscContext);
+  const { mute, setMute, theme, setTheme } = useContext(MiscContext);
+  const { prestigeUpgrades, totalWisdomEarned } = useContext(PrestigeContext);
   const [play] = useSound(soundUrl, { volume: mute ? 0 : 0.1 });
   const { increment } = useIncrementByClick(dependencies);
   const { parseNumber } = useNumberParsing();
   const { setChosenBookEffect } = useChosenKn(
     dependencies.chosenBook,
     dependencies.buffClass,
-    dependencies.upgrades
+    dependencies.upgrades,
+    prestigeUpgrades,
+    dependencies.bookEnchantments,
+    totalWisdomEarned
   );
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   const is_mobile =
     !!navigator.userAgent.match(/iphone|android|blackberry/gi) || false;
   const [showPrimaryView, setShowPrimaryView] = useState(is_mobile);
@@ -39,17 +58,13 @@ const IdleApp = () => {
     const characterGif = document.querySelector(
       !showPrimaryView ? ".character" : ".character-cc"
     );
-    if (
-      !dependencies.automatron1 ||
-      !dependencies.squirrels ||
-      !dependencies.pageTrees
-    ) {
-      characterGif.src = personajeOneLoop;
-      // eslint-disable-next-line no-self-assign
-      characterGif.src = characterGif.src;
-    } else {
-      // eslint-disable-next-line no-self-assign
-      characterGif.src = characterGif.src;
+    if (characterGif) {
+      const src = characterGif.src;
+      characterGif.src = "";
+      // Force browser to restart the GIF by clearing then restoring src
+      requestAnimationFrame(() => {
+        characterGif.src = src;
+      });
     }
   };
   const handleClick = () => {
@@ -105,38 +120,46 @@ const IdleApp = () => {
                 {BoopButton()}
               </form>
 
-              {!is_mobile && (
-                <button
-                  className="view-button"
-                  onClick={() => setShowPrimaryView(!showPrimaryView)}
-                >
-                  Change View
+              <div className="header-controls">
+                {!is_mobile && (
+                  <button
+                    className="view-button"
+                    onClick={() => setShowPrimaryView(!showPrimaryView)}
+                  >
+                    Change View
+                  </button>
+                )}
+                <button className="theme-toggle-btn" onClick={toggleTheme}>
+                  {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
                 </button>
-              )}
-              <button className="mute-button" onClick={() => setMute(!mute)}>
-                {mute ? "Unmute" : "Mute"}
-              </button>
+                <button className="mute-button" onClick={() => setMute(!mute)}>
+                  {mute ? "Unmute" : "Mute"}
+                </button>
+              </div>
             </div>
 
             <div className="display-stats">
-              <p>
-                Goal:
-                <br />
-                {parseNumber(statDependencies.goal)} kN
-              </p>
+              <Tooltip text="General kN target for this run" position="bottom">
+                <p>
+                  Goal:
+                  <br />
+                  {parseNumber(statDependencies.goal)} kN
+                </p>
+              </Tooltip>
 
-              <p>
-                Progress:
-                <br />
-                {Math.floor(
-                  (statDependencies.totalKnCountOfThisRun.generalKn /
-                    statDependencies.goal) *
-                    100 *
-                    100
-                ) / 100}
-                %
-              </p>
-              {/* <p>Total: {parseNumber(Math.floor(totalKn * 100) / 100)} kN</p> */}
+              <Tooltip text="General kN earned vs. goal" position="bottom">
+                <p>
+                  Progress:
+                  <br />
+                  {Math.floor(
+                    (statDependencies.totalKnCountOfThisRun.generalKn /
+                      statDependencies.goal) *
+                      100 *
+                      100
+                  ) / 100}
+                  %
+                </p>
+              </Tooltip>
             </div>
             <div
               unselectable="on"
@@ -145,24 +168,32 @@ const IdleApp = () => {
             >
               <div className="kn-amount-display">
                 <div>
-                  <p>
-                    {/* parseNumber( */ dependencies.knCount.generalKn /* ) */}
-                    <span>kN</span>{" "}
-                  </p>
-                  <p>
-                    {/* parseNumber( */ dependencies.knCount.bioKn /* ) */}
-                    <span className="bioKn">kN</span>{" "}
-                  </p>
+                  <Tooltip text="General Knowledge" position="bottom">
+                    <p>
+                      {dependencies.knCount.generalKn}
+                      <span>kN</span>{" "}
+                    </p>
+                  </Tooltip>
+                  <Tooltip text="Biology Knowledge" position="bottom">
+                    <p>
+                      {dependencies.knCount.bioKn}
+                      <span className="bioKn">kN</span>{" "}
+                    </p>
+                  </Tooltip>
                 </div>
                 <div>
-                  <p>
-                    {/* parseNumber( */ dependencies.knCount.technoKn /* ) */}
-                    <span className="technoKn">kN</span>{" "}
-                  </p>
-                  <p>
-                    {/* parseNumber( */ dependencies.knCount.cultureKn /* ) */}
-                    <span className="cultureKn">kN</span>{" "}
-                  </p>
+                  <Tooltip text="Technology Knowledge" position="bottom">
+                    <p>
+                      {dependencies.knCount.technoKn}
+                      <span className="technoKn">kN</span>{" "}
+                    </p>
+                  </Tooltip>
+                  <Tooltip text="Culture Knowledge" position="bottom">
+                    <p>
+                      {dependencies.knCount.cultureKn}
+                      <span className="cultureKn">kN</span>{" "}
+                    </p>
+                  </Tooltip>
                 </div>
               </div>
               <Buff />
@@ -177,24 +208,67 @@ const IdleApp = () => {
             <nav className="second-half-nav">
               <ul className="second-half-ul">
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/">
-                    Shop
-                  </Link>
+                  <Tooltip text="Buy books and buildings" position="bottom">
+                    <Link className="second-half-nav-button" to="/">
+                      Shop
+                    </Link>
+                  </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/stats">
-                    Stats
-                  </Link>
+                  <Tooltip text="View achievements and progress" position="bottom">
+                    <Link className="second-half-nav-button" to="/stats">
+                      Stats
+                    </Link>
+                  </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/shelf">
-                    Shelf
-                  </Link>
+                  <Tooltip text="Book dependency tree" position="bottom">
+                    <Link className="second-half-nav-button" to="/shelf">
+                      Shelf
+                    </Link>
+                  </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/options">
-                    Options
-                  </Link>
+                  <Tooltip text="Submit and vote on custom books" position="bottom">
+                    <Link className="second-half-nav-button" to="/community">
+                      Community
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Book synergy bonuses" position="bottom">
+                    <Link className="second-half-nav-button" to="/combos">
+                      Combos
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Enchant books for bonus effects" position="bottom">
+                    <Link className="second-half-nav-button" to="/enchant">
+                      Enchant
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Timed challenges for bonus rewards" position="bottom">
+                    <Link className="second-half-nav-button" to="/challenges">
+                      Challenges
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Reset for permanent bonuses" position="bottom">
+                    <Link className="second-half-nav-button" to="/prestige">
+                      Prestige
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Save, load, reset, and settings" position="bottom">
+                    <Link className="second-half-nav-button" to="/options">
+                      Options
+                    </Link>
+                  </Tooltip>
                 </li>
               </ul>
             </nav>
@@ -213,6 +287,21 @@ const IdleApp = () => {
                 <Shelf />
               </ReactFlowProvider>
             </Route>
+            <Route path="/community">
+              <BookSubmissions />
+            </Route>
+            <Route path="/combos">
+              <BookCombos />
+            </Route>
+            <Route path="/enchant">
+              <BookEnchantments />
+            </Route>
+            <Route path="/challenges">
+              <TimedChallenges />
+            </Route>
+            <Route path="/prestige">
+              <Prestige />
+            </Route>
           </div>
         </>
       ) : (
@@ -224,36 +313,44 @@ const IdleApp = () => {
                 {BoopButton()}
               </form>
 
-              <button
-                className="view-button"
-                onClick={() => setShowPrimaryView(!showPrimaryView)}
-              >
-                Change View
-              </button>
-              <button className="mute-button" onClick={() => setMute(!mute)}>
-                {mute ? "Unmute" : "Mute"}
-              </button>
+              <div className="header-controls">
+                <button
+                  className="view-button"
+                  onClick={() => setShowPrimaryView(!showPrimaryView)}
+                >
+                  Change View
+                </button>
+                <button className="theme-toggle-btn" onClick={toggleTheme}>
+                  {theme === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19"}
+                </button>
+                <button className="mute-button" onClick={() => setMute(!mute)}>
+                  {mute ? "Unmute" : "Mute"}
+                </button>
+              </div>
             </div>
 
             <div className="display-stats">
-              <p>
-                Goal:
-                <br />
-                {parseNumber(statDependencies.goal)} kN
-              </p>
+              <Tooltip text="General kN target for this run" position="bottom">
+                <p>
+                  Goal:
+                  <br />
+                  {parseNumber(statDependencies.goal)} kN
+                </p>
+              </Tooltip>
 
-              <p>
-                Progress:
-                <br />
-                {Math.floor(
-                  (statDependencies.totalKnCountOfThisRun.generalKn /
-                    statDependencies.goal) *
-                    100 *
-                    100
-                ) / 100}
-                %
-              </p>
-              {/* <p>Total: {parseNumber(Math.floor(totalKn * 100) / 100)} kN</p> */}
+              <Tooltip text="General kN earned vs. goal" position="bottom">
+                <p>
+                  Progress:
+                  <br />
+                  {Math.floor(
+                    (statDependencies.totalKnCountOfThisRun.generalKn /
+                      statDependencies.goal) *
+                      100 *
+                      100
+                  ) / 100}
+                  %
+                </p>
+              </Tooltip>
             </div>
             <div
               unselectable="on"
@@ -263,30 +360,32 @@ const IdleApp = () => {
               <div className="info-buff-container">
                 <div className="kn-amount-display">
                   <div>
-                    <p>
-                      {
-                        /* parseNumber( */ dependencies.knCount
-                          .generalKn /* ) */
-                      }
-                      <span>kN</span>{" "}
-                    </p>
-                    <p>
-                      {/* parseNumber( */ dependencies.knCount.bioKn /* ) */}
-                      <span className="bioKn">kN</span>{" "}
-                    </p>
+                    <Tooltip text="General Knowledge" position="bottom">
+                      <p>
+                        {dependencies.knCount.generalKn}
+                        <span>kN</span>{" "}
+                      </p>
+                    </Tooltip>
+                    <Tooltip text="Biology Knowledge" position="bottom">
+                      <p>
+                        {dependencies.knCount.bioKn}
+                        <span className="bioKn">kN</span>{" "}
+                      </p>
+                    </Tooltip>
                   </div>
                   <div>
-                    <p>
-                      {/* parseNumber( */ dependencies.knCount.technoKn /* ) */}
-                      <span className="technoKn">kN</span>{" "}
-                    </p>
-                    <p>
-                      {
-                        /* parseNumber( */ dependencies.knCount
-                          .cultureKn /* ) */
-                      }
-                      <span className="cultureKn">kN</span>{" "}
-                    </p>
+                    <Tooltip text="Technology Knowledge" position="bottom">
+                      <p>
+                        {dependencies.knCount.technoKn}
+                        <span className="technoKn">kN</span>{" "}
+                      </p>
+                    </Tooltip>
+                    <Tooltip text="Culture Knowledge" position="bottom">
+                      <p>
+                        {dependencies.knCount.cultureKn}
+                        <span className="cultureKn">kN</span>{" "}
+                      </p>
+                    </Tooltip>
                   </div>
                 </div>
                 <Buff />
@@ -306,27 +405,29 @@ const IdleApp = () => {
                       {dependencies.chosenBook}
                     </div>
                     <br />
-                    <div className="currentlyReading">
-                      Generating:
-                      <div className="kn-amount-display kn-amount-horizontal-display">
-                        <span className="kn-amount-ps">
-                          {genrlKnCountWithEffects}
-                          <span>kN</span>
-                        </span>
-                        <span className="kn-amount-ps">
-                          {bioKnCountWithEffects}
-                          <span className="bioKn">kN</span>
-                        </span>
-                        <span className="kn-amount-ps">
-                          {technoKnCountWithEffects}
-                          <span className="technoKn">kN</span>
-                        </span>
-                        <span className="kn-amount-ps">
-                          {cultureKnCountWithEffects}
-                          <span className="cultureKn">kN</span>
-                        </span>
+                    <Tooltip text="Knowledge per click from your current book" position="top">
+                      <div className="currentlyReading">
+                        Generating:
+                        <div className="kn-amount-display kn-amount-horizontal-display">
+                          <span className="kn-amount-ps">
+                            {genrlKnCountWithEffects}
+                            <span>kN</span>
+                          </span>
+                          <span className="kn-amount-ps">
+                            {bioKnCountWithEffects}
+                            <span className="bioKn">kN</span>
+                          </span>
+                          <span className="kn-amount-ps">
+                            {technoKnCountWithEffects}
+                            <span className="technoKn">kN</span>
+                          </span>
+                          <span className="kn-amount-ps">
+                            {cultureKnCountWithEffects}
+                            <span className="cultureKn">kN</span>
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    </Tooltip>
                   </div>
                 </div>
               </div>
@@ -336,24 +437,67 @@ const IdleApp = () => {
             <nav className="second-half-nav">
               <ul className="second-half-ul">
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/">
-                    Shop
-                  </Link>
+                  <Tooltip text="Buy books and buildings" position="bottom">
+                    <Link className="second-half-nav-button" to="/">
+                      Shop
+                    </Link>
+                  </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/stats">
-                    Stats
-                  </Link>
+                  <Tooltip text="View achievements and progress" position="bottom">
+                    <Link className="second-half-nav-button" to="/stats">
+                      Stats
+                    </Link>
+                  </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/shelf">
-                    Shelf
-                  </Link>
+                  <Tooltip text="Book dependency tree" position="bottom">
+                    <Link className="second-half-nav-button" to="/shelf">
+                      Shelf
+                    </Link>
+                  </Tooltip>
                 </li>
                 <li className="second-half-ul-li">
-                  <Link className="second-half-nav-button" to="/options">
-                    Options
-                  </Link>
+                  <Tooltip text="Submit and vote on custom books" position="bottom">
+                    <Link className="second-half-nav-button" to="/community">
+                      Community
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Book synergy bonuses" position="bottom">
+                    <Link className="second-half-nav-button" to="/combos">
+                      Combos
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Enchant books for bonus effects" position="bottom">
+                    <Link className="second-half-nav-button" to="/enchant">
+                      Enchant
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Timed challenges for bonus rewards" position="bottom">
+                    <Link className="second-half-nav-button" to="/challenges">
+                      Challenges
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Reset for permanent bonuses" position="bottom">
+                    <Link className="second-half-nav-button" to="/prestige">
+                      Prestige
+                    </Link>
+                  </Tooltip>
+                </li>
+                <li className="second-half-ul-li">
+                  <Tooltip text="Save, load, reset, and settings" position="bottom">
+                    <Link className="second-half-nav-button" to="/options">
+                      Options
+                    </Link>
+                  </Tooltip>
                 </li>
               </ul>
             </nav>
@@ -371,6 +515,21 @@ const IdleApp = () => {
               <ReactFlowProvider>
                 <Shelf />
               </ReactFlowProvider>
+            </Route>
+            <Route path="/community">
+              <BookSubmissions />
+            </Route>
+            <Route path="/combos">
+              <BookCombos />
+            </Route>
+            <Route path="/enchant">
+              <BookEnchantments />
+            </Route>
+            <Route path="/challenges">
+              <TimedChallenges />
+            </Route>
+            <Route path="/prestige">
+              <Prestige />
             </Route>
           </div>
         </div>

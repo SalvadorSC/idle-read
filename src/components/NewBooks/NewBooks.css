@@ -1,7 +1,7 @@
 .newBooks {
   margin: 0 auto;
   width: 60%;
-  background-color: #666;
+  background-color: var(--bg-newbooks);
   padding: 25px;
   margin-top: 25px;
   border-radius: 5px;
@@ -11,9 +11,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start; /* 
-  align-content: space-around;
-  align-items: flex-start; */
+  justify-content: flex-start;
 }
 
 .newBooks-title {

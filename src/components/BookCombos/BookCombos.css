@@ -1,0 +1,91 @@
+.book-combos-panel {
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.book-combos-panel h3 {
+  color: var(--glow-gold);
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.book-combos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-combo-item {
+  background-color: var(--bg-secondary);
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: box-shadow 0.3s ease;
+}
+
+.book-combo-item.active {
+  box-shadow: 0 0 10px 2px var(--glow-gold);
+  border: 1px solid var(--glow-gold);
+}
+
+.book-combo-item.inactive {
+  opacity: 0.45;
+  border: 1px solid transparent;
+}
+
+.combo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.combo-name {
+  font-weight: bold;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.combo-name.active {
+  color: var(--glow-gold);
+}
+
+.combo-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.combo-badge.active {
+  background-color: var(--glow-gold);
+  color: var(--bg-primary);
+}
+
+.combo-badge.inactive {
+  background-color: var(--bg-tertiary);
+  color: var(--text-muted);
+}
+
+.combo-description {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin: 4px 0;
+}
+
+.combo-bonus {
+  color: #a5d6a7;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.combo-progress {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  margin-top: 4px;
+}

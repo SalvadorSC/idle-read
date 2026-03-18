@@ -11,6 +11,7 @@ export const UpgradeItem = ({
   requirementField,
   requirement,
   description,
+  isCommunityBook,
 }) => {
   const { setNewUpgrade } = useUpgrades();
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -92,6 +93,16 @@ export const UpgradeItem = ({
     }
   };
   useEffect(() => {
+    if (isCommunityBook) {
+      if (!upgrades[field].includes(upgrade)) {
+        setShowUpgrade(true);
+      } else if (location.pathname === "/shelf") {
+        setShowUpgrade(true);
+      } else {
+        setShowUpgrade(false);
+      }
+      return;
+    }
     const toggleShowUpgrade = (
       price,
       field,
@@ -159,6 +170,7 @@ export const UpgradeItem = ({
     maxKn.bioKn,
     maxKn.technoKn,
     maxKn.cultureKn,
+    isCommunityBook,
   ]);
 
   return (
