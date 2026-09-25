@@ -3,6 +3,7 @@ import prestigeData from "../data/prestigeUpgrades.json";
 import enchantmentsData from "../data/enchantments.json";
 import { getOwnedBooks } from "../utils/knUtils";
 import { getCurrentTier } from "../utils/prestigeUtils";
+import { parseCommunityBookKey, sanitizeKnMultipliers } from "../utils/communityBooks";
 
 function getPrestigeMultipliers(prestigeUpgrades, totalWisdomEarned) {
   const multipliers = { generalKn: 1, bioKn: 1, technoKn: 1, cultureKn: 1 };
@@ -55,21 +56,25 @@ function getComboMultipliers(upgrades, comboBoost) {
 let _communityCache = null;
 let _communityCacheRaw = null;
 
-function getCommunityBookMultipliers(bookTitle) {
+function getCommunityBookMultipliers(bookKey) {
+  const id = parseCommunityBookKey(bookKey);
+  if (!id) return null;
+  let raw = null;
   try {
-    const raw = localStorage.getItem("bookSubmissions");
+    raw = localStorage.getItem("bookSubmissions");
     if (raw !== _communityCacheRaw) {
-      _communityCacheRaw = raw;
       _communityCache = raw ? JSON.parse(raw) : null;
+      _communityCacheRaw = raw;
     }
-    if (_communityCache && _communityCache.winners) {
-      const winner = _communityCache.winners.find((w) => w.title === bookTitle);
-      if (winner && winner.knMultipliers) {
-        return winner.knMultipliers;
-      }
-    }
+    const winners = _communityCache && Array.isArray(_communityCache.winners)
+      ? _communityCache.winners
+      : null;
+    if (!winners) return null;
+    const winner = winners.find((entry) => entry && String(entry.id) === String(id));
+    return winner ? sanitizeKnMultipliers(winner.knMultipliers) : null;
   } catch (e) {
-    // ignore
+    _communityCache = null;
+    _communityCacheRaw = raw;
   }
   return null;
 }

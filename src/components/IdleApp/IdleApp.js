@@ -25,6 +25,8 @@ import { BookEnchantments } from "../BookEnchantments/BookEnchantments";
 import { TimedChallenges } from "../TimedChallenges/TimedChallenges";
 import { Tooltip } from "../Tooltip/Tooltip";
 import PrestigeContext from "../../context/PrestigeContext";
+import BookSubmissionsContext from "../../context/BookSubmissionsContext";
+import { communityBookLabel } from "../../utils/communityBooks";
 const IdleApp = () => {
   const dependencies = useContext(CounterContext);
   const statDependencies = useContext(StatsContext);
@@ -32,6 +34,8 @@ const IdleApp = () => {
     useContext(CounterContext);
   const { mute, setMute, theme, setTheme } = useContext(MiscContext);
   const { prestigeUpgrades, totalWisdomEarned } = useContext(PrestigeContext);
+  const { winners } = useContext(BookSubmissionsContext);
+  const readingTitle = communityBookLabel(dependencies.chosenBook, winners);
   const [play] = useSound(soundUrl, { volume: mute ? 0 : 0.1 });
   const { increment } = useIncrementByClick(dependencies);
   const { parseNumber } = useNumberParsing();
@@ -402,7 +406,7 @@ const IdleApp = () => {
                     <div className="currentlyReading">
                       Currently Reading: <br />
                       <br />
-                      {dependencies.chosenBook}
+                      {readingTitle}
                     </div>
                     <br />
                     <Tooltip text="Knowledge per click from your current book" position="top">

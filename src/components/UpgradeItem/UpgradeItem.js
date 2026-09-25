@@ -12,6 +12,7 @@ export const UpgradeItem = ({
   requirement,
   description,
   isCommunityBook,
+  label,
 }) => {
   const { setNewUpgrade } = useUpgrades();
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -94,13 +95,8 @@ export const UpgradeItem = ({
   };
   useEffect(() => {
     if (isCommunityBook) {
-      if (!upgrades[field].includes(upgrade)) {
-        setShowUpgrade(true);
-      } else if (location.pathname === "/shelf") {
-        setShowUpgrade(true);
-      } else {
-        setShowUpgrade(false);
-      }
+      // Owned community books stay in the shop so they can be re-equipped.
+      setShowUpgrade(Boolean(upgrades[field]));
       return;
     }
     const toggleShowUpgrade = (
@@ -186,13 +182,17 @@ export const UpgradeItem = ({
               requirementField,
               requirement
             )}
-            onClick={() =>
-              upgrades[field].includes(upgrade)
-                ? setChosenBook(upgrade)
-                : setNewUpgrade(field, upgrade, price)
-            }
+            onClick={() => {
+              if (!upgrades[field]) return;
+              if (upgrades[field].includes(upgrade)) {
+                setChosenBook(upgrade);
+                return;
+              }
+              setNewUpgrade(field, upgrade, price);
+              if (isCommunityBook) setChosenBook(upgrade);
+            }}
           >
-            {upgrade}
+            {label || upgrade}
             <span>
               {!upgrades[field].includes(upgrade) &&
                 price.map((price, i) => (

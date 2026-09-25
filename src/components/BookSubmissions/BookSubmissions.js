@@ -5,6 +5,7 @@ import {
   PHASES,
   getPhaseEndLabel,
 } from "../../utils/weekCycle";
+import { isBuiltinBookTitle } from "../../utils/communityBooks";
 import "./BookSubmissions.css";
 
 export const BookSubmissions = () => {
@@ -36,16 +37,18 @@ export const BookSubmissions = () => {
     culture: "Culture",
   };
 
+  const titleConflicts = isBuiltinBookTitle(title);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title.trim() || !description.trim()) return;
+    if (!title.trim() || !description.trim() || titleConflicts) return;
 
     const totalKn =
       parseFloat(generalKn) +
       parseFloat(bioKn) +
       parseFloat(technoKn) +
       parseFloat(cultureKn);
-    if (totalKn <= 0 || totalKn > 2) return;
+    if (!Number.isFinite(totalKn) || totalKn <= 0 || totalKn > 2) return;
 
     submitBook(title.trim(), description.trim(), field, {
       generalKn: parseFloat(generalKn),
@@ -69,13 +72,18 @@ export const BookSubmissions = () => {
     parseFloat(cultureKn || 0);
 
   const sortedSubmissions = [...submissions].sort(
-    (a, b) => b.votes - a.votes
+    (a, b) => (Number(b.votes) || 0) - (Number(a.votes) || 0)
   );
 
   return (
     <div className="book-submissions">
       <div className="submissions-header">
-        <h3 className="submissions-title">Community Books</h3>
+        <div>
+          <h3 className="submissions-title">Community Books</h3>
+          <p className="submissions-local-note">
+            Submissions and votes stay on this device.
+          </p>
+        </div>
         <div className="phase-badge">
           <span
             className={`phase-indicator ${
@@ -112,6 +120,11 @@ export const BookSubmissions = () => {
                   maxLength={50}
                   required
                 />
+                {titleConflicts && (
+                  <p className="title-error">
+                    That title is already a shop book. Pick another name.
+                  </p>
+                )}
               </div>
               <div className="form-field">
                 <label>Description</label>
@@ -202,7 +215,14 @@ export const BookSubmissions = () => {
               <button
                 type="submit"
                 className="submit-book-btn"
-                disabled={!title.trim() || !description.trim() || totalKn <= 0 || totalKn > 2}
+                disabled={
+                  !title.trim() ||
+                  !description.trim() ||
+                  titleConflicts ||
+                  !Number.isFinite(totalKn) ||
+                  totalKn <= 0 ||
+                  totalKn > 2
+                }
               >
                 Submit Book
               </button>
@@ -234,16 +254,16 @@ export const BookSubmissions = () => {
                   </span>
                   <span className="submission-field">
                     {fieldLabels[sub.field]} &middot;{" "}
-                    {sub.knMultipliers.generalKn > 0 && (
+                    {sub.knMultipliers && sub.knMultipliers.generalKn > 0 && (
                       <span>{sub.knMultipliers.generalKn}<span>kN</span> </span>
                     )}
-                    {sub.knMultipliers.bioKn > 0 && (
+                    {sub.knMultipliers && sub.knMultipliers.bioKn > 0 && (
                       <span>{sub.knMultipliers.bioKn}<span className="bioKn">kN</span> </span>
                     )}
-                    {sub.knMultipliers.technoKn > 0 && (
+                    {sub.knMultipliers && sub.knMultipliers.technoKn > 0 && (
                       <span>{sub.knMultipliers.technoKn}<span className="technoKn">kN</span> </span>
                     )}
-                    {sub.knMultipliers.cultureKn > 0 && (
+                    {sub.knMultipliers && sub.knMultipliers.cultureKn > 0 && (
                       <span>{sub.knMultipliers.cultureKn}<span className="cultureKn">kN</span> </span>
                     )}
                   </span>

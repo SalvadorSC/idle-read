@@ -34,6 +34,7 @@ export const NewBooks = () => {
                   price={book.price}
                   field={book.field}
                   upgrade={book.upgrade}
+                  label={book.title}
                   requirementField={undefined}
                   requirement={undefined}
                   description={book.description}
