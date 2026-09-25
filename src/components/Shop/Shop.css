@@ -8,7 +8,7 @@
 }
 
 .shop-item-name {
-  color: white;
+  color: var(--text-primary);
   font-size: 20px;
   width: auto;
 }
@@ -22,18 +22,18 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background-color: #333;
+  background-color: var(--btn-bg);
   transition: box-shadow 0.3s ease;
 }
 .info-bullet:hover {
-  -webkit-box-shadow: 0px 0px 5px 2px #d3cfba;
-  box-shadow: 0px 0px 5px 2px #d3cfba;
+  -webkit-box-shadow: 0px 0px 5px 2px var(--glow-tan);
+  box-shadow: 0px 0px 5px 2px var(--glow-tan);
 }
 
 .shop-button {
-  background-color: #333;
+  background-color: var(--btn-bg);
   font-size: 15px;
-  color: white;
+  color: var(--text-primary);
   border: none;
   padding: 8px;
   border-radius: 5px;
@@ -41,10 +41,10 @@
 }
 
 .shop-button:hover {
-  background-color: #444;
+  background-color: var(--btn-bg-hover);
 }
 
 .shop-button:disabled {
-  background-color: rgb(153, 153, 153);
-  color: rgb(190, 190, 190);
+  background-color: var(--text-muted);
+  color: var(--text-disabled);
 }

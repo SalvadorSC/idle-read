@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import CounterContext from "../../context/CounterContext";
 import MiscContext from "../../context/MiscContext";
+import { Tooltip } from "../Tooltip/Tooltip";
 import "./Buff.css";
 export const Buff = () => {
   const { upgrades } = useContext(CounterContext);
@@ -55,18 +56,20 @@ export const Buff = () => {
               : `unactive-buff`
           }
         >
-          <button
-            onClick={() => {
-              if (
-                buffMessage === "Extreme Focus" &&
-                buffClass !== "unactive-buff"
-              ) {
-                startBuff();
-              }
-            }}
-          >
-            {buffMessage}
-          </button>
+          <Tooltip text="3x knowledge for 30s (needs Atomic Habits)" position="top">
+            <button
+              onClick={() => {
+                if (
+                  buffMessage === "Extreme Focus" &&
+                  buffClass !== "unactive-buff"
+                ) {
+                  startBuff();
+                }
+              }}
+            >
+              {buffMessage}
+            </button>
+          </Tooltip>
         </div>
       }
     </>

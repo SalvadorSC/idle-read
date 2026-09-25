@@ -1,6 +1,8 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useCallback, useMemo, useReducer } from "react";
 
 const MiscContext = createContext();
+const savedTheme = localStorage.getItem("theme") || "dark";
+
 const initialState = {
   mute: true,
   isPlaying: true,
@@ -8,6 +10,7 @@ const initialState = {
   volume: 0,
   buffMessage: "Extreme Focus",
   buffClass: "",
+  theme: savedTheme,
 };
 
 const actions = {
@@ -17,6 +20,7 @@ const actions = {
   SET_buffMessage: "SET_buffMessage",
   SET_DETAILSINFO: "SET_DETAILSINFO",
   SET_buffClass: "SET_buffClass",
+  SET_THEME: "SET_THEME",
 };
 
 function reducer(state, action) {
@@ -33,6 +37,9 @@ function reducer(state, action) {
       return { ...state, buffMessage: action.value };
     case actions.SET_buffClass:
       return { ...state, buffClass: action.value };
+    case actions.SET_THEME:
+      localStorage.setItem("theme", action.value);
+      return { ...state, theme: action.value };
     default:
       return state;
   }
@@ -40,32 +47,44 @@ function reducer(state, action) {
 export const MiscProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const value = {
+  const setMute = useCallback((value) => {
+    dispatch({ type: actions.SET_MUTE, value });
+  }, []);
+  const setIsPlaying = useCallback((value) => {
+    dispatch({ type: actions.SET_ISPLAYING, value });
+  }, []);
+  const setVolume = useCallback((value) => {
+    dispatch({ type: actions.SET_VOLUME, value });
+  }, []);
+  const setBuffMessage = useCallback((value) => {
+    dispatch({ type: actions.SET_buffMessage, value });
+  }, []);
+  const setBuffClass = useCallback((value) => {
+    dispatch({ type: actions.SET_buffClass, value });
+  }, []);
+  const setDetailsInfo = useCallback((value) => {
+    dispatch({ type: actions.SET_DETAILSINFO, value });
+  }, []);
+  const setTheme = useCallback((value) => {
+    dispatch({ type: actions.SET_THEME, value });
+  }, []);
+
+  const value = useMemo(() => ({
     mute: state.mute,
     volume: state.volume,
     isPlaying: state.isPlaying,
     detailsInfo: state.detailsInfo,
     buffMessage: state.buffMessage,
     buffClass: state.buffClass,
-    setMute: (value) => {
-      dispatch({ type: actions.SET_MUTE, value });
-    },
-    setIsPlaying: (value) => {
-      dispatch({ type: actions.SET_ISPLAYING, value });
-    },
-    setVolume: (value) => {
-      dispatch({ type: actions.SET_VOLUME, value });
-    },
-    setBuffMessage: (value) => {
-      dispatch({ type: actions.SET_buffMessage, value });
-    },
-    setBuffClass: (value) => {
-      dispatch({ type: actions.SET_buffClass, value });
-    },
-    setDetailsInfo: (value) => {
-      dispatch({ type: actions.SET_DETAILSINFO, value });
-    },
-  };
+    theme: state.theme,
+    setMute,
+    setIsPlaying,
+    setVolume,
+    setBuffMessage,
+    setBuffClass,
+    setDetailsInfo,
+    setTheme,
+  }), [state, setMute, setIsPlaying, setVolume, setBuffMessage, setBuffClass, setDetailsInfo, setTheme]);
 
   return <MiscContext.Provider value={value}>{children}</MiscContext.Provider>;
 };

@@ -1,0 +1,124 @@
+{
+  "prestigeTiers": [
+    { "id": "novice", "name": "Novice", "wpRequired": 0, "passiveMultiplier": 1.0 },
+    { "id": "scholar", "name": "Scholar", "wpRequired": 5, "passiveMultiplier": 1.1 },
+    { "id": "sage", "name": "Sage", "wpRequired": 15, "passiveMultiplier": 1.25 },
+    { "id": "master", "name": "Master", "wpRequired": 40, "passiveMultiplier": 1.5 },
+    { "id": "grandmaster", "name": "Grandmaster", "wpRequired": 100, "passiveMultiplier": 1.8 },
+    { "id": "transcendent", "name": "Transcendent", "wpRequired": 250, "passiveMultiplier": 2.5 }
+  ],
+  "prestigeUpgrades": [
+    {
+      "id": "wisdom_reading",
+      "name": "Wisdom of Reading",
+      "description": "Your past experience makes you read faster. +50% all kN.",
+      "cost": 1,
+      "multipliers": { "generalKn": 1.5, "bioKn": 1.5, "technoKn": 1.5, "cultureKn": 1.5 },
+      "requiredTier": "novice"
+    },
+    {
+      "id": "deep_focus",
+      "name": "Deep Focus",
+      "description": "You retain general knowledge better. +100% general kN.",
+      "cost": 3,
+      "multipliers": { "generalKn": 2, "bioKn": 1, "technoKn": 1, "cultureKn": 1 },
+      "requiredTier": "novice"
+    },
+    {
+      "id": "nature_intuition",
+      "name": "Nature Intuition",
+      "description": "Nature topics click faster in your mind. +100% bio kN.",
+      "cost": 3,
+      "multipliers": { "generalKn": 1, "bioKn": 2, "technoKn": 1, "cultureKn": 1 },
+      "requiredTier": "novice"
+    },
+    {
+      "id": "tech_savvy",
+      "name": "Tech Savvy",
+      "description": "Technology concepts come naturally. +100% techno kN.",
+      "cost": 3,
+      "multipliers": { "generalKn": 1, "bioKn": 1, "technoKn": 2, "cultureKn": 1 },
+      "requiredTier": "novice"
+    },
+    {
+      "id": "cultural_memory",
+      "name": "Cultural Memory",
+      "description": "Art and history resonate deeply. +100% culture kN.",
+      "cost": 3,
+      "multipliers": { "generalKn": 1, "bioKn": 1, "technoKn": 1, "cultureKn": 2 },
+      "requiredTier": "novice"
+    },
+    {
+      "id": "speed_reading",
+      "name": "Speed Reading",
+      "description": "You've mastered the art of reading. +100% all kN.",
+      "cost": 10,
+      "multipliers": { "generalKn": 2, "bioKn": 2, "technoKn": 2, "cultureKn": 2 },
+      "requiredTier": "scholar"
+    },
+    {
+      "id": "enlightenment",
+      "name": "Enlightenment",
+      "description": "True wisdom multiplies everything. +200% all kN.",
+      "cost": 25,
+      "multipliers": { "generalKn": 3, "bioKn": 3, "technoKn": 3, "cultureKn": 3 },
+      "requiredTier": "sage"
+    },
+    {
+      "id": "photographic_memory",
+      "name": "Photographic Memory",
+      "description": "You never forget what you read. +150% general kN.",
+      "cost": 15,
+      "multipliers": { "generalKn": 2.5, "bioKn": 1, "technoKn": 1, "cultureKn": 1 },
+      "requiredTier": "sage"
+    },
+    {
+      "id": "ecosystem_mastery",
+      "name": "Ecosystem Mastery",
+      "description": "The natural world is an open book. +150% bio kN.",
+      "cost": 15,
+      "multipliers": { "generalKn": 1, "bioKn": 2.5, "technoKn": 1, "cultureKn": 1 },
+      "requiredTier": "sage"
+    },
+    {
+      "id": "quantum_logic",
+      "name": "Quantum Logic",
+      "description": "You think in algorithms. +150% techno kN.",
+      "cost": 15,
+      "multipliers": { "generalKn": 1, "bioKn": 1, "technoKn": 2.5, "cultureKn": 1 },
+      "requiredTier": "sage"
+    },
+    {
+      "id": "renaissance_soul",
+      "name": "Renaissance Soul",
+      "description": "Art, history, and philosophy flow through you. +150% culture kN.",
+      "cost": 15,
+      "multipliers": { "generalKn": 1, "bioKn": 1, "technoKn": 1, "cultureKn": 2.5 },
+      "requiredTier": "sage"
+    },
+    {
+      "id": "polymath",
+      "name": "Polymath",
+      "description": "You excel in every discipline. +200% all kN.",
+      "cost": 50,
+      "multipliers": { "generalKn": 3, "bioKn": 3, "technoKn": 3, "cultureKn": 3 },
+      "requiredTier": "master"
+    },
+    {
+      "id": "omniscience",
+      "name": "Omniscience",
+      "description": "Knowledge flows to you effortlessly. +300% all kN.",
+      "cost": 100,
+      "multipliers": { "generalKn": 4, "bioKn": 4, "technoKn": 4, "cultureKn": 4 },
+      "requiredTier": "grandmaster"
+    },
+    {
+      "id": "transcendence",
+      "name": "Transcendence",
+      "description": "You have become knowledge itself. +500% all kN.",
+      "cost": 200,
+      "multipliers": { "generalKn": 6, "bioKn": 6, "technoKn": 6, "cultureKn": 6 },
+      "requiredTier": "transcendent"
+    }
+  ]
+}

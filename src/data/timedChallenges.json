@@ -1,0 +1,76 @@
+{
+  "challenges": [
+    {
+      "id": "quick_read",
+      "name": "Quick Read",
+      "description": "Earn 500 generalKn in 60 seconds",
+      "duration": 60,
+      "goal": { "type": "generalKn", "amount": 500 },
+      "reward": { "type": "kn", "generalKn": 250, "bioKn": 0, "technoKn": 0, "cultureKn": 0 },
+      "cooldown": 180
+    },
+    {
+      "id": "bio_blitz",
+      "name": "Bio Blitz",
+      "description": "Earn 1,000 bioKn in 90 seconds",
+      "duration": 90,
+      "goal": { "type": "bioKn", "amount": 1000 },
+      "reward": { "type": "kn", "generalKn": 0, "bioKn": 500, "technoKn": 0, "cultureKn": 0 },
+      "cooldown": 300
+    },
+    {
+      "id": "tech_rush",
+      "name": "Tech Rush",
+      "description": "Earn 1,000 technoKn in 90 seconds",
+      "duration": 90,
+      "goal": { "type": "technoKn", "amount": 1000 },
+      "reward": { "type": "kn", "generalKn": 0, "bioKn": 0, "technoKn": 500, "cultureKn": 0 },
+      "cooldown": 300
+    },
+    {
+      "id": "culture_sprint",
+      "name": "Culture Sprint",
+      "description": "Earn 1,000 cultureKn in 90 seconds",
+      "duration": 90,
+      "goal": { "type": "cultureKn", "amount": 1000 },
+      "reward": { "type": "kn", "generalKn": 0, "bioKn": 0, "technoKn": 0, "cultureKn": 500 },
+      "cooldown": 300
+    },
+    {
+      "id": "click_frenzy",
+      "name": "Click Frenzy",
+      "description": "Click 200 times in 30 seconds",
+      "duration": 30,
+      "goal": { "type": "clicks", "amount": 200 },
+      "reward": { "type": "kn", "generalKn": 1000, "bioKn": 0, "technoKn": 0, "cultureKn": 0 },
+      "cooldown": 300
+    },
+    {
+      "id": "knowledge_surge",
+      "name": "Knowledge Surge",
+      "description": "Earn 5,000 total kN in 120 seconds",
+      "duration": 120,
+      "goal": { "type": "totalKn", "amount": 5000 },
+      "reward": { "type": "kn", "generalKn": 1000, "bioKn": 500, "technoKn": 500, "cultureKn": 500 },
+      "cooldown": 600
+    },
+    {
+      "id": "wisdom_trial",
+      "name": "Wisdom Trial",
+      "description": "Earn 10,000 total kN in 120 seconds",
+      "duration": 120,
+      "goal": { "type": "totalKn", "amount": 10000 },
+      "reward": { "type": "wp", "amount": 1 },
+      "cooldown": 900
+    },
+    {
+      "id": "grand_challenge",
+      "name": "Grand Challenge",
+      "description": "Earn 50,000 total kN in 180 seconds",
+      "duration": 180,
+      "goal": { "type": "totalKn", "amount": 50000 },
+      "reward": { "type": "wp", "amount": 3 },
+      "cooldown": 1800
+    }
+  ]
+}

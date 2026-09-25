@@ -1,12 +1,52 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import CounterContext from "../../context/CounterContext";
 import StatsContext from "../../context/StatsContext";
+import { Tooltip } from "../Tooltip/Tooltip";
+import { formatKnReward, sumKn } from "../../utils/knUtils";
+import achievementsData from "../../data/achievements.json";
 import "./Stats.css";
 
+const categoryColors = {
+  knowledge: "#e8c547",
+  clicks: "#c7c2a9",
+  buildings: "turquoise",
+  prestige: "violet",
+};
+
+function checkCondition(condition, state) {
+  switch (condition.type) {
+    case "goal":
+      return state.goal > condition.value;
+    case "clicks":
+      return state.clicks >= condition.value;
+    case "multiplicador":
+      return state.multiplicador >= condition.value;
+    case "automatron1":
+      return state.automatron1 >= condition.value;
+    case "squirrels":
+      return state.squirrels >= condition.value;
+    case "pageTrees":
+      return state.pageTrees >= condition.value;
+    case "resets":
+      return state.resets >= condition.value;
+    case "totalKnAllTime":
+      return sumKn(state.totalKnOfAllTime) >= condition.value;
+    case "totalClicksAllTime":
+      return state.totalClicksAllTime >= condition.value;
+    default:
+      return false;
+  }
+}
+
 export const Stats = () => {
-  const { automatron1, multiplicador, squirrels, pageTrees } = useContext(
-    CounterContext
-  );
+  const {
+    automatron1,
+    multiplicador,
+    squirrels,
+    pageTrees,
+    knCount,
+    setKnCount,
+  } = useContext(CounterContext);
   const {
     goal,
     totalKnCountOfThisRun,
@@ -15,102 +55,137 @@ export const Stats = () => {
     totalClicksOfAllTime,
     totalKnOfAllTime,
     knForfeitedAtReset,
+    unlockedAchievements,
+    setUnlockedAchievements,
   } = useContext(StatsContext);
 
-  const totalKnOfThisRun =
-    totalKnCountOfThisRun.generalKn +
-    totalKnCountOfThisRun.bioKn +
-    totalKnCountOfThisRun.technoKn +
-    totalKnCountOfThisRun.cultureKn;
-  const totalKnOfAllRuns =
-    totalKnOfAllTime.generalKn +
-    totalKnOfAllTime.bioKn +
-    totalKnOfAllTime.technoKn +
-    totalKnOfAllTime.cultureKn;
+  const [notification, setNotification] = useState(null);
+
+  const totalKnOfThisRun = sumKn(totalKnCountOfThisRun);
+  const totalKnOfAllRuns = sumKn(totalKnOfAllTime);
+
+  const state = useMemo(
+    () => ({
+      goal,
+      clicks,
+      multiplicador,
+      automatron1,
+      squirrels,
+      pageTrees,
+      resets,
+      totalKnOfAllTime,
+      totalClicksAllTime: totalClicksOfAllTime,
+    }),
+    [goal, clicks, multiplicador, automatron1, squirrels, pageTrees, resets, totalKnOfAllTime, totalClicksOfAllTime]
+  );
+
+  // Find all newly unlockable achievements in one pass and batch-claim them
+  useEffect(() => {
+    const newlyUnlocked = achievementsData.achievements.filter(
+      (a) =>
+        !unlockedAchievements.includes(a.id) &&
+        checkCondition(a.condition, state)
+    );
+    if (newlyUnlocked.length === 0) return;
+
+    // Sum all rewards
+    let totalReward = { generalKn: 0, bioKn: 0, technoKn: 0, cultureKn: 0 };
+    for (const a of newlyUnlocked) {
+      totalReward.generalKn += a.reward.generalKn || 0;
+      totalReward.bioKn += a.reward.bioKn || 0;
+      totalReward.technoKn += a.reward.technoKn || 0;
+      totalReward.cultureKn += a.reward.cultureKn || 0;
+    }
+
+    // Single state update for kN
+    setKnCount({
+      ...knCount,
+      generalKn: knCount.generalKn + totalReward.generalKn,
+      bioKn: knCount.bioKn + totalReward.bioKn,
+      technoKn: knCount.technoKn + totalReward.technoKn,
+      cultureKn: knCount.cultureKn + totalReward.cultureKn,
+    });
+
+    // Single state update for unlocked list
+    setUnlockedAchievements([
+      ...unlockedAchievements,
+      ...newlyUnlocked.map((a) => a.id),
+    ]);
+
+    // Show notification for the last one unlocked
+    setNotification(newlyUnlocked[newlyUnlocked.length - 1]);
+  }, [state, unlockedAchievements, knCount, setKnCount, setUnlockedAchievements]);
+
+  // Auto-dismiss notification
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
+  const unlockedCount = unlockedAchievements.length;
 
   return (
     <>
+      {notification && (
+        <div className="achievement-notification">
+          <span className="achievement-notification-icon">★</span>
+          <div>
+            <p className="achievement-notification-title">
+              Achievement Unlocked!
+            </p>
+            <p className="achievement-notification-name">{notification.name}</p>
+            <p className="achievement-notification-reward">
+              {formatKnReward(notification.reward)}
+            </p>
+          </div>
+        </div>
+      )}
       <div className="statistics-section">
         <div className="stats-section">
           <p className="stats-section-title">Statistics</p>
           <div className="stats-container">
             <p>Total clicks of this run: {clicks} clicks</p>
             <p>Total clicks of all time: {totalClicksOfAllTime} clicks</p>
-            <p>Total Knowledge of this run: {totalKnOfThisRun} kN</p>
-            <p>Total Knowledge of all time: {totalKnOfAllRuns} kN</p>
+            <p>Total Knowledge of this run: {Math.floor(totalKnOfThisRun * 100) / 100} kN</p>
+            <p>Total Knowledge of all time: {Math.floor(totalKnOfAllRuns * 100) / 100} kN</p>
             <p>
               Total kN forfeited by reset: {knForfeitedAtReset.generalKn} kN
             </p>
           </div>
         </div>
         <div className="achievements-section">
-          <p className="stats-section-title">Achievements </p>
+          <p className="stats-section-title">
+            Achievements ({unlockedCount}/{achievementsData.achievements.length})
+          </p>
           <div className="achievement-container">
-            <p className="achievement-box">{goal > 100 && "100kN"}</p>
-            <p className="achievement-box">{goal > 1000 && "1.000kN"}</p>
-            <p className="achievement-box">{goal > 100000 && "100.000kN"}</p>
-            <p className="achievement-box">{goal > 1000000 && "1.000.000kN"}</p>
-            <p className="achievement-box">{clicks >= 500 && "500 clicks"}</p>
-            <p className="achievement-box">
-              {clicks >= 10000 && "10.000 clicks"}
-            </p>
-            <p className="achievement-box">
-              {clicks >= 100000 && "100.000 clicks"}
-            </p>
-            <p className="achievement-box">
-              {goal >= 1000000000 && "1.000.000.000"}
-            </p>
-
-            <p className="achievement-box">
-              {goal > 10000000000 && "10.000.000.000"}
-            </p>
-
-            <p className="achievement-box">
-              {goal >= 100000000000 && "100.000.000.000"}
-            </p>
-            {multiplicador > 1 && <p className="achievement-box">1 MX</p>}
-            <p className="achievement-box">{multiplicador >= 10 && "10 MX"}</p>
-            <p className="achievement-box">
-              {multiplicador >= 100 && "100 MX"}
-            </p>
-
-            <p className="achievement-box">
-              {multiplicador >= 1000 && "1000 MX"}
-            </p>
-
-            <p className="achievement-box">
-              {multiplicador >= 100000 && "100000 MX"}
-            </p>
-            <p className="achievement-box">{automatron1 >= 1 && "1 AuM1"}</p>
-            <p className="achievement-box"> {automatron1 >= 10 && "10 AuM1"}</p>
-            <p className="achievement-box">
-              {automatron1 >= 100 && "100 AuM1"}
-            </p>
-            <p className="achievement-box">
-              {automatron1 >= 1000 && "1000 AuM1"}
-            </p>
-            <p className="achievement-box">
-              {automatron1 >= 100000 && "100000 AuM1"}
-            </p>
-            <p className="achievement-box">{squirrels >= 1 && "1 Sqrr"}</p>
-            <p className="achievement-box"> {squirrels >= 10 && "10 Sqrr"}</p>
-            <p className="achievement-box">{squirrels >= 100 && "100 Sqrr"}</p>
-            <p className="achievement-box">
-              {squirrels >= 1000 && "1000 Sqrr"}
-            </p>
-            <p className="achievement-box">
-              {squirrels >= 100000 && "100000 Sqrr"}
-            </p>
-            <p className="achievement-box">{pageTrees >= 1 && "1 PgTr"}</p>
-            <p className="achievement-box"> {pageTrees >= 10 && "10 PgTr"}</p>
-            <p className="achievement-box">{pageTrees >= 100 && "100 PgTr"}</p>
-            <p className="achievement-box">
-              {pageTrees >= 1000 && "1000 PgTr"}
-            </p>
-            <p className="achievement-box">
-              {pageTrees >= 100000 && "100000 PgTr"}
-            </p>
-            <p className="achievement-box">{resets >= 1 && "Reset once"}</p>
+            {achievementsData.achievements.map((achievement) => {
+              const isUnlocked = unlockedAchievements.includes(achievement.id);
+              const color = categoryColors[achievement.category] || "#c7c2a9";
+              return (
+                <Tooltip
+                  key={achievement.id}
+                  text={
+                    isUnlocked
+                      ? `${achievement.description} — ${formatKnReward(achievement.reward)}`
+                      : achievement.description
+                  }
+                  position="top"
+                >
+                  <p
+                    className={`achievement-box ${
+                      isUnlocked ? "achievement-unlocked" : "achievement-locked"
+                    }`}
+                    style={
+                      isUnlocked ? { borderColor: color, color: color } : {}
+                    }
+                  >
+                    {isUnlocked ? achievement.name : "???"}
+                  </p>
+                </Tooltip>
+              );
+            })}
           </div>
         </div>
       </div>

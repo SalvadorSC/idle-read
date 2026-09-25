@@ -4,12 +4,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  padding: 0 25px; */
-  /*   align-content: flex-start;
-  align-items: flex-start; */
 }
 
 .shelf-container {
@@ -19,7 +13,7 @@
   min-height: 150px;
   text-align: left;
   padding: 0 25px;
-  background-color: rgb(76, 75, 99);
+  background-color: var(--bg-panel);
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;

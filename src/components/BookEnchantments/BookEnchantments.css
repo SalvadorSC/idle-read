@@ -1,0 +1,193 @@
+.enchantments-panel {
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.enchantments-panel h3 {
+  color: #b39ddb;
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.enchantments-subtitle {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 0 0 16px 0;
+}
+
+.enchantments-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0 0 8px 0;
+  font-weight: bold;
+}
+
+.enchantments-selected-book {
+  color: #b39ddb;
+}
+
+.enchantments-books {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.enchantment-book-card {
+  background-color: var(--bg-tertiary);
+  border: 2px solid transparent;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 120px;
+}
+
+.enchantment-book-card:hover {
+  border-color: var(--border-input);
+}
+
+.enchantment-book-card.selected {
+  border-color: #b39ddb;
+  box-shadow: 0 0 8px rgba(179, 157, 219, 0.3);
+}
+
+.enchantment-book-card.enchanted {
+  border-color: #7e57c2;
+}
+
+.enchantment-book-card.enchanted.selected {
+  border-color: #b39ddb;
+}
+
+.enchantment-book-name {
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  display: block;
+}
+
+.enchantment-active-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.enchantment-active-name {
+  color: #b39ddb;
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+.enchantment-remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.enchantment-remove-btn:hover {
+  color: #f44336;
+}
+
+.enchantments-available {
+  border-top: 1px solid var(--bg-secondary);
+  padding-top: 12px;
+}
+
+.enchantments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.enchantment-item {
+  background-color: var(--bg-secondary);
+  border-radius: 6px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  transition: box-shadow 0.3s;
+}
+
+.enchantment-item.applied {
+  border-color: #b39ddb;
+  box-shadow: 0 0 10px 2px rgba(179, 157, 219, 0.3);
+}
+
+.enchantment-item.unaffordable {
+  opacity: 0.45;
+}
+
+.enchantment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.enchantment-name {
+  font-weight: bold;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.enchantment-applied-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #b39ddb;
+  color: var(--bg-primary);
+}
+
+.enchantment-description {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin: 4px 0;
+}
+
+.enchantment-cost {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin: 4px 0 8px 0;
+}
+
+.enchantment-apply-btn {
+  background-color: #7e57c2;
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.enchantment-apply-btn:hover:not(:disabled) {
+  background-color: #9575cd;
+}
+
+.enchantment-apply-btn:disabled {
+  background-color: var(--bg-secondary);
+  color: var(--text-dim);
+  cursor: not-allowed;
+}
+
+@media (max-width: 400px) {
+  .enchantments-books {
+    flex-direction: column;
+  }
+  .enchantment-book-card {
+    min-width: unset;
+  }
+}
